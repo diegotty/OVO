@@ -7,7 +7,7 @@ data:
 seed: 0
 slam:
   config_path: data/working/configs/slam
-  slam_module: orbslam #vanilla #gaussian_slam #
+  slam_module: vanilla #orbslam #gaussian_slam #
   use_viewer: False # only used with orbslam
   close_loops: True # only used with orbslam
   save_estimated_cam: True
@@ -42,12 +42,12 @@ semantic:
     #min_mask_region_area: 100
   clip:
     use_half: False
-    embed_type: TextRegion # learned #fixed_weights # 
-    model_card: "PE-Core-L14-336" # SigLIP-384 #ViT-H-14 #
-    mask_res: 336 # 384
+    embed_type: learned #TextRegion #fixed_weights # 
+    model_card: SigLIP-384 #"PE-Core-L14-336" # ViT-H-14 #
+    mask_res: 384 # 336 for PE Core
     weights_predictor_path: data/input/weights_predictor/base
-    k_top_views: 10000 #-1 #5 #10
-    fusion: 'avg_pooling' #'l1_medoid'
+    k_top_views: 10 #5 #10000 #-1 #
+    fusion: 'l1_medoid' #'avg_pooling' #
     mv_fuser: False #True #
-    mv_fuser_ckpt: "20250725_1155" #"20250725_1200"
+    mv_fuser_ckpt: "20250725_1200"
   kf_queue_delay: 10
