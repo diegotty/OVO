@@ -66,7 +66,9 @@ conda install libegl libegl-devel libgl libgl-devel libgles libgles-devel libglv
 # Install Eigen, Pangolin, OpenCV, Numpy
 conda install glew eigen=3.4 pangolin-opengl=0.9.2 libopencv=4.11 numpy=2.4 boost -c conda-forge 
 ```
-And finally run the script `build.sh` to build the *ORB-SLAM3* and the python bindings.
+After that run the script `build.sh` to build the *ORB-SLAM3* and the python bindings.
+Finally, copy the decoded ORB vocabulary from the installation folder,`ORB_SLAM3/Vocabulary/ORBvoc.txt`, to `data/working/config/slam/orbslam3/vocabulary`.
+
 
 ## Data
 See <a href="./data/input/ReadMe.md">data instructions</a>.
