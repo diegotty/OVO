@@ -17,7 +17,6 @@ def main(args):
 
     semantic_module, params = load_representation(run_path, eval=True)
     pcd_pred = params["xyz"]
-    obj_ids = params["obj_ids"]
 
     dataset_name = capitalize_first(config["dataset_name"])
     if dataset_name == "Scannet":
@@ -25,44 +24,44 @@ def main(args):
     path = Path(args.working_dir) / "data/working/configs/" / dataset_name  / args.dataset_info_file
     data_path = Path(args.working_dir) / "data/input/Datasets/"
     with open(path, 'r') as f:
-        dataset_info = yaml.full_load(f)
+        dataset_info = yaml.full_load(f)    
     
-    classes = dataset_info["class_names_reduced"] if dataset_info.get("map_to_reduced", None)  else dataset_info["class_names"] 
-    pcd_labels_gt, pcd_gt = load_scene_data(config["dataset_name"], config["data"]["scene_name"], data_path, dataset_info)
-    pcd_labels_pred = read_labels(run_path.parent / dataset_info["dataset"] / (config["data"]["scene_name"]+".txt"))
+    if args.visualize_gt_vs_pre:
+        classes = dataset_info["class_names_reduced"] if dataset_info.get("map_to_reduced", None)  else dataset_info["class_names"] 
+        pcd_labels_gt, pcd_gt = load_scene_data(config["dataset_name"], config["data"]["scene_name"], data_path, dataset_info)
 
-    map_to_reduced = dataset_info.get("map_to_reduced", None)
-    scene_labels_idxs = np.unique(pcd_labels_gt)
-
-    if map_to_reduced is not None and dataset_name != "Replica":
-        for id in scene_labels_idxs:
-            if id not in map_to_reduced.keys():
-                map_to_reduced[id] = -1
-        pcd_labels_gt = np.vectorize(map_to_reduced.get)(pcd_labels_gt)
+        map_to_reduced = dataset_info.get("map_to_reduced", None)
         scene_labels_idxs = np.unique(pcd_labels_gt)
-    pcd_labels_gt = np.asarray(pcd_labels_gt)
 
-    while scene_labels_idxs[0]<0:
-        scene_labels_idxs = scene_labels_idxs[1:]
-    classes = np.array(classes)[scene_labels_idxs]
-    
-    sh_c0 = 0.28209479177387814
+        if map_to_reduced is not None and dataset_name != "Replica":
+            for id in scene_labels_idxs:
+                if id not in map_to_reduced.keys():
+                    map_to_reduced[id] = -1
+            pcd_labels_gt = np.vectorize(map_to_reduced.get)(pcd_labels_gt)
+            scene_labels_idxs = np.unique(pcd_labels_gt)
+        pcd_labels_gt = np.asarray(pcd_labels_gt)
+
+        while scene_labels_idxs[0]<0:
+            scene_labels_idxs = scene_labels_idxs[1:]
+        classes = np.array(classes)[scene_labels_idxs]
+        pcd_labels_pred = read_labels(run_path.parent / dataset_info["dataset"] / (config["data"]["scene_name"]+".txt"))
+
+        mask = pcd_labels_gt>=0
+
     if args.visualize_obj or args.visualize_interactive_query or args.visualize_gt_vs_pre:
         if params.get("features_dc", None) is not None:
+            sh_c0 = 0.28209479177387814
             pcd_colors = (params["features_dc"]*sh_c0+0.5).clip(0).flatten(0,1)
         elif params.get("color") is not None:
             pcd_colors = params["color"]
         else:
             pcd_colors = torch.rand(pcd_pred.shape)*255
-            
+
         while True:
-            if args.visualize_obj:
-                visualize_3d_points_obj_id_and_obb(pcd_pred, obj_ids, pcd_colors)
             if args.visualize_interactive_query:
                 vis = Visualizer(semantic_module, scene_name=config["data"]["scene_name"], save_path=run_path.parent)
                 vis.visualize_and_query(pcd_pred, params["obj_ids"].squeeze().numpy(), pcd_colors)
             if args.visualize_gt_vs_pre:
-                mask = pcd_labels_gt>=0
                 visualize_gt_vs_pred(pcd_gt[mask], pcd_labels_gt[mask], pcd_labels_pred[mask].astype(np.int64), np.array(classes), scene_labels_idxs)
     
 if __name__ == "__main__":
