@@ -3,11 +3,11 @@ checkpoint_path: null
 use_wandb: False
 device: cuda
 data:
-  frame_limit: -1 # 100 #-1 # for debugging, set to -1 to disable
+  frame_limit: 100 # 100 #-1 # for debugging, set to -1 to disable
 seed: 0
 slam:
   config_path: data/working/configs/slam
-  slam_module: vanilla #orbslam #gaussian_slam #
+  slam_module: orbslam3 #orbslam #gaussian_slam #vanilla
   use_viewer: False # only used with orbslam
   close_loops: True # only used with orbslam
   save_estimated_cam: True
@@ -42,7 +42,7 @@ semantic:
     #min_mask_region_area: 100
   clip:
     use_half: False
-    embed_type: learned #TextRegion #fixed_weights # 
+    embed_type: fixed_weights #TextRegion #fixed_weights #learned
     model_card: SigLIP-384 #"PE-Core-L14-336" # ViT-H-14 #
     mask_res: 384 # 336 for PE Core
     weights_predictor_path: data/input/weights_predictor/base
