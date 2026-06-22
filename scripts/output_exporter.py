@@ -90,7 +90,6 @@ def extract(checkpoint, ovo_dir, output_dir):
         }
 
         segments_metadata.append(segment_metadata)
-        segment_dir.mkdir(exist_ok=True)
         np.save(segment_dir / "points.npy", segment_points.astype(np.float32))
 
 
