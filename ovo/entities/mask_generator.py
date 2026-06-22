@@ -180,8 +180,6 @@ class MaskGenerator:
         map_path = os.path.join(self.masks_path, f"{frame_id:04d}_seg_map_default.npy") 
         if os.path.exists(map_path):
             seg_map = np.load(map_path)
-            
-            #TODO: store and load original binary maps rather than compute them from the saved filtered seg map
             binary_path = os.path.join(self.masks_path, f"{frame_id:04d}_bmap_default.npy")
             if os.path.exists(binary_path):
                 binary_maps = np.load(binary_path)

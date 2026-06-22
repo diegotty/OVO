@@ -57,6 +57,7 @@ class OVOSemMap():
         cam_intrinsics =  torch.tensor(self.dataset.intrinsics.astype(np.float32), device=self.device)
         config["semantic"]["debug_info"] = self.config.get("debug_info", False)
 
+        # ovo obj
         self.ovo = OVO(config["semantic"], self.logger, config["data"]["scene_name"], cam_intrinsics, device=self.device)
 
         if config["semantic"]["sam"].get("precomputed", False) or config["semantic"]["sam"].get("precompute", False):

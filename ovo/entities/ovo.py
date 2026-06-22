@@ -10,6 +10,7 @@ from .clip_generator import CLIPGenerator
 from .mask_generator import MaskGenerator
 from .instance3d import Instance3D
 from .logger import Logger
+from .crop_logger import CropLogger
 
 class OVO:
     """ Initialize CLIP and SAM backbones, with a given configuration, and logger.
@@ -21,7 +22,7 @@ class OVO:
         - eval (bool, optional): If True SAM backbone is not loaded and the Camera intrinsic matrix is not required. Default is False.
         - device (str, optional): Device to run CLIP model and SAM. Must be either 'cpu' or 'cuda'. Default is 'cuda'.
     """
-    def __init__(self, config: Dict[str, Any], logger: Logger, scene_name: str | None = None, cam_intrinsics: torch.Tensor | None = None, eval: bool = False, device = "cuda") -> None:
+    def __init__(self, config: Dict[str, Any], logger: Logger, scene_name: str | None = None, cam_intrinsics: torch.Tensor | None = None, eval: bool = False, log_crops : bool = False, device = "cuda") -> None:
         if not eval:
             assert cam_intrinsics is not None, "Camera intrinsics required for reconstruction!"
 
@@ -63,6 +64,13 @@ class OVO:
         self.th_centroid = config.get("th_centroid", 1.5)
         self.th_cossim = config.get("th_cossim", 0.81)
         self.th_points = config.get("th_points", 0.1)
+
+        #crop logger
+        self.clip_logger = None
+        # TODO give control to config.yaml
+        if log_crops == True:
+            crop_cache_path = logger.output_path / "crop_cache"
+            self.crop_logger = CropLogger(crop_cache_path)
 
         if config.get("verbose", True):
             print('Semantic config')
@@ -262,7 +270,10 @@ class OVO:
                 #Assign points to 3D instance, or create a new instance
                 if assigned_mask.sum().item() > track_th:
                     map_ins_id = torch.mode(points_ins_ids[map_points[assigned_mask]]).values.item()
-                    self.objects[map_ins_id].update(unassigned_points_ids, kf_id, mask_area)
+
+                    removed_kf_id = self.objects[map_ins_id].update(unassigned_points_ids, kf_id, mask_area)
+                    if removed_kf_id is not None:
+                        self.crop_logger.remove_keyframe(segment_id=map_ins_id, kf_id=removed_kf_id)
                     if map_ins_id in matched_ins_info.keys():
                         matched_ins_info[map_ins_id].append((map_idx, mask_area))  
                     else:
@@ -306,7 +317,9 @@ class OVO:
                 mask_area = mask.sum().item()
 
                 if self.n_top_views>0:
-                    self.objects[ins_id].add_top_kf(kf_id, mask_area)
+                    removed_kf_id = self.objects[ins_id].add_top_kf(kf_id, mask_area)
+                    if removed_kf_id is not None:
+                        self.crop_logger.remove_keyframe(segment_id=ins_id, kf_id=removed_kf_id)
 
             if self.n_top_views<=0 or self.objects[ins_id].is_top_kf(kf_id):
                 matched_ins_ids.append(ins_id)
@@ -342,13 +355,21 @@ class OVO:
                 for j, ins_id in enumerate(matched_ins_ids):
                     if self.objects[ins_id].is_top_kf(kf_id):
                         obj_to_compute.append(j)
+
                 if len(obj_to_compute) == 0:
                     return
+                # matched_ins_ids, binary_maps only keep the ids/maps of 3d segments whose heap got updated
                 matched_ins_ids, binary_maps = np.asarray(matched_ins_ids)[obj_to_compute].tolist(), binary_maps[obj_to_compute]
 
-            clip_embeds = self._extract_clip(image, binary_maps).cpu()
-            self._update_matched_objects_clip(clip_embeds, matched_ins_ids, kf_id)
 
+            if self.crop_logger is not None:
+                # as we pass a filtered binary_maps, our crops will be only for the 3dd segments that NEED updating
+                clip_embeds, crops = self._extract_clip(image, binary_maps).cpu()
+                self.crop_logger.add_keyframe( kf_id=kf_id, segment_ids=matched_ins_ids, crops=crops.detach().cpu().clone())
+            else:
+                clip_embeds = self._extract_clip(image, binary_maps).cpu()
+
+            self._update_matched_objects_clip(clip_embeds, matched_ins_ids, kf_id)
             if self.config.get("log", False):
                 frame_id = self.keyframes["frame_id"][kf_id]
                 self.logger.log_ovo_stats(
@@ -387,6 +408,7 @@ class OVO:
                 objects_list.append(self.objects[ins_id])
             else:
                 objects_to_del.append(self.objects[ins_id])
+
         # 2. Fuse 3D instances that fulfill a condition. 
         # TODO: optimize brute-force approach (compare all instances to each-other)
         #precompute pointcloud
@@ -434,7 +456,14 @@ class OVO:
             - climp_embeds: each level/key stores a list of numpy arrays with dim (N, self.clip_dim).    
         """
         image = torch.from_numpy(image.transpose((2,0,1))).to(self.device)
-        return self.clip_generator.extract_clip(image, binary_maps, self.config.get("return_all_clips", False)).cpu()
+        result = self.clip_generator.extract_clip(image, binary_maps, self.config.get("return_all_clips", False)).cpu()
+        if self.crop_logger is not None:
+            clip_embeds, crops = result
+            # ERROR ...
+            return clip_embeds, crops
+        else:
+            clip_embeds = result
+        return clip_embeds
     
     @profil
     def _update_matched_objects_clip(self, clip_embeds: torch.Tensor, matched_ins_ids: List[int], kf_id: int) -> None:  
@@ -536,12 +565,15 @@ class OVO:
                   the dictionary will also include frame IDs, default object maps, and object descriptors.
         """
         scene_dict = {
-            "ins_3d_ids": np.asarray(list(self.objects.keys()))
+            "ins_3d_ids": np.asarray(list(self.objects.keys())),
+
+            # changed to mandatory for our methodology
+            "frame_id" : np.asarray(self.keyframes["frame_id"])
         }
         for obj in self.objects.values():
             scene_dict.update(obj.export(debug_info))
         if debug_info:
-            scene_dict["frame_id"] = np.array(self.keyframes["frame_id"])
+            # scene_dict["frame_id"] = np.array(self.keyframes["frame_id"])
             scene_dict["ins_map"] = np.array(self.keyframes["ins_maps"])
             for kf_id, ins_descriptors in self.keyframes["ins_descriptors"].items():
                 for ins_id, descriptors in ins_descriptors.items():

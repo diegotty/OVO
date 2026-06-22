@@ -85,7 +85,7 @@ class Instance3D:
         """
         self.add_keyframes(kf_id)
         self.add_points_ids(points_ids)
-        self.add_top_kf(kf_id, area)
+        return self.add_top_kf(kf_id, area)
 
     def add_points_ids(self, points_ids: List[int]) -> None:
         """Add points_ids to list of points matched with the object. 
@@ -116,22 +116,31 @@ class Instance3D:
                 self.top_kf[idx] = (area, kf_id)
                 heapq.heapify(self.top_kf)
                 self.to_update=True
+            return None
         else:
-            self._add_top_kf(kf_id, area)
+            return self._add_top_kf(kf_id, area)
     
-    def _add_top_kf(self, kf_id: int, area: int) -> None:
+    def _add_top_kf(self, kf_id: int, area: int):
         """If the area is one of the N biggest, add to list of top keyframes
         Args:
             - keyframe_id (int): id of keyframe where the object has been observed. 
             - area (int): area of the segmentation map of the object if keyframe_id 
         """
+        # if there was room, we just add
         if len(self.top_kf) < self.n_top_kf:
             heapq.heappush(self.top_kf,(area, kf_id))
             self.to_update=True
+            return None
         else:
-            removed = heapq.heappushpop(self.top_kf,(area, kf_id))
-            if (self.n_top_kf <= 0) or (removed[1] != kf_id):
+        #else, we push and pop a new one
+            removed_area, removed_kf_id = heapq.heappushpop(self.top_kf,(area, kf_id))
+            if (self.n_top_kf <= 0) or (removed_kf_id != kf_id):
                 self.to_update = True
+        # we pushed and popped the same kf
+        if removed_kf_id == kf_id:
+            return None
+        return removed_kf_id 
+
        
     def idx_in_top_kf(self, kf_id: int) -> int:
         """ If kf_id is in self.top_kf, returns the index. Otherwise return -1.
@@ -199,13 +208,17 @@ class Instance3D:
         obj_dict = {
             f"ins3d_{self.id}_clip_feature": self.clip_feature,
             f"ins3d_{self.id}_clip_feature_kf": self.clip_feature_kf,
+
+            # changed to mandatory for our methodology
+            f"ins3d_{self.id}_keyframes_ids":  np.array(self.kfs_ids),
+            f"ins3d_{self.id}_top_kfs":  np.array(self.top_kf),
         }
 
         if debug_info:
             obj_dict.update({
-            f"ins3d_{self.id}_keyframes_ids":  np.array(self.kfs_ids),
-            f"ins3d_{self.id}_points_ids":  np.array(self.points_ids),
-            f"ins3d_{self.id}_top_kfs":  np.array(self.top_kf),
+            f"ins3d_{self.id}_points_ids":  np.array(self.points_ids)
+            # f"ins3d_{self.id}_keyframes_ids":  np.array(self.kfs_ids),
+            # f"ins3d_{self.id}_top_kfs":  np.array(self.top_kf),
             })
 
         return obj_dict

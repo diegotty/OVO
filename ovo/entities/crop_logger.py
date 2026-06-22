@@ -1,4 +1,3 @@
-# TODO add docs ?
 import numpy as np
 from pathlib import Path
 from torchvision.utils import save_image
@@ -11,13 +10,12 @@ class CropLogger:
         self.cache_dir = cache_dir
 
         # in case we want to save full sequence frames aswell
-        self.frames_dir = cache_dir / "frames"
+        # self.frames_dir = cache_dir / "frames"
+        # self.frames_dir.mkdir(parents=True, exist_ok=True)
         self.segments_dir = cache_dir / "segments"
-        self.frames_dir.mkdir(parents=True, exist_ok=True)
         self.segments_dir.mkdir(parents=True, exist_ok=True)
 
     def add_keyframe(self, kf_id, segment_ids, crops):
-        # TODO check are crops already aligned ?
         for segment_id, segment_crops in (zip(segment_ids, crops):
             view_path = self.segments_dir / f"segment_{segment_id}" / f"kf_{kf_id}"
             view_path.mkdir(parents=True, exist_ok=True)

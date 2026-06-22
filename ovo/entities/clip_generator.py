@@ -122,7 +122,7 @@ class CLIPGenerator:
         return self.model.encode_image(processed_input)    
 
     @torch.no_grad
-    def extract_clip(self, image: torch.Tensor, binary_maps: torch.Tensor, return_all: bool = False) -> torch.Tensor:
+    def extract_clip(self, image: torch.Tensor, binary_maps: torch.Tensor, return_all: bool = False, return_crops: bool = False) -> torch.Tensor:
         """ Computes a CLIP vector for each mask of the segmented image.
         Args:
             - image (torch.Tensor): Full source RGB image with dimensions (3,H,W) and range 0-255.
@@ -136,9 +136,15 @@ class CLIPGenerator:
         if self.embed_type != "vanilla":
             if len(image.shape) ==3:
                 image = image[None, ...]
+
+            # CLIP of full sequence frame
             clip_g = torch.nn.functional.normalize(self.encode_image(image/255.), p=2,dim=-1)
 
+        # 2 crops
         seg_images = segment_utils.segmap2segimg(binary_maps, image.squeeze(), self.embed_type != "vanilla", out_l=self.mask_res)/255.
+
+        # suspect ?
+        crops_backup = seg_images
         if len(seg_images) == 0:
             return torch.tensor([], device = self.device)
         
@@ -155,6 +161,9 @@ class CLIPGenerator:
             
         if self.config.get("use_half", False):
             clip_embed = clip_embed.half()
+        if return_crops:
+            crops = { "masked" : crops_backup[:, :3], "bbox" : crops_backup[:, 3:]}
+            return clip_embed, crops
         return clip_embed
 
     @torch.no_grad

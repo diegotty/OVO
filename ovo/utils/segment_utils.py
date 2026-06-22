@@ -38,6 +38,7 @@ def segmap2segimg(binary_map: torch.Tensor, image: torch.Tensor, also_bbox: bool
 
     seg_imgs = torch.stack(seg_imgs, axis=0) # b,3,H,W
 
+    # returning the 2 crops
     return seg_imgs
 
 def batched_mask_to_box(masks: torch.Tensor) -> torch.Tensor:
@@ -116,8 +117,12 @@ def bbox_img_from_image(mask: torch.Tensor, bbox: torch.Tensor, image: torch.Ten
     return bbox_img, bmap
 
 def seg_img_from_image(mask: torch.Tensor, bbox: torch.Tensor, image: torch.Tensor, also_bbox: bool, bbox_margin: int = 50, size: int =224) -> torch.Tensor :
+
+    # image of the segment, reset of the image is masked out
     seg_img = get_seg_img(mask, bbox, image)
     if also_bbox:
+
+        #minimum bbox that contains the segment
         bbox_img = F.resize(get_bbox_img(bbox, image, bbox_margin), (size,size))
         padded_img = torch.concatenate([F.resize(seg_img, (size,size)), bbox_img], axis=0)
     else:
@@ -127,6 +132,8 @@ def seg_img_from_image(mask: torch.Tensor, bbox: torch.Tensor, image: torch.Tens
 def get_seg_img(mask: torch.Tensor, bbox: torch.Tensor, image: torch.Tensor) -> torch.Tensor:
     x,y,w,h = bbox
     seg_img = torch.zeros((3, h, w), dtype = image.dtype, device=image.device)
+
+    #masking out the background
     seg_img[:,mask[y:y+h, x:x+w]] = image[..., y:y+h, x:x+w][:,mask[y:y+h, x:x+w]].clone()
     return seg_img
 
