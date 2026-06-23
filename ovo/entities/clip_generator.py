@@ -163,7 +163,7 @@ class CLIPGenerator:
             clip_embed = clip_embed.half()
         if return_crops:
             crops = { "masked" : crops_backup[:, :3], "bbox" : crops_backup[:, 3:]}
-            return clip_embed, crops
+            return clip_embed.cpu(), crops_backup
         return clip_embed
 
     @torch.no_grad

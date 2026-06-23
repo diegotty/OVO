@@ -28,7 +28,7 @@ def extract(checkpoint, ovo_dir, output_dir):
     segments_metadata = []
 
     segment_ids = to_numpy(ovo_params["ins_3d_ids"])
-    for id in enumerate(segment_ids):
+    for _, id in enumerate(segment_ids):
         segment_id = int(id)
         top_views = []
 

@@ -58,7 +58,7 @@ class OVOSemMap():
         config["semantic"]["debug_info"] = self.config.get("debug_info", False)
 
         # ovo obj
-        self.ovo = OVO(config["semantic"], self.logger, config["data"]["scene_name"], cam_intrinsics, device=self.device)
+        self.ovo = OVO(config["semantic"], self.logger, config["data"]["scene_name"], cam_intrinsics, device=self.device, log_crops=True)
 
         if config["semantic"]["sam"].get("precomputed", False) or config["semantic"]["sam"].get("precompute", False):
             self.ovo.mask_generator.precompute(self.dataset, self.segment_every)

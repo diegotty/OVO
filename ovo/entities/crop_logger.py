@@ -13,6 +13,7 @@ class CropLogger:
         # self.frames_dir = cache_dir / "frames"
         # self.frames_dir.mkdir(parents=True, exist_ok=True)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        print("woop woop! crop logger created")
 
     def add_keyframe(self, kf_id, segment_ids, crops):
         for segment_id, segment_crops in zip(segment_ids, crops):

@@ -66,8 +66,9 @@ class OVO:
         self.th_points = config.get("th_points", 0.1)
 
         #crop logger
-        self.clip_logger = None
+        self.crop_logger = None
         # TODO give control to config.yaml
+        print(f"AOOOOOO LOG CROPS IS {log_crops}")
         if log_crops == True:
             crop_cache_path = logger.output_path / "crop_cache"
             self.crop_logger = CropLogger(crop_cache_path)
@@ -364,8 +365,8 @@ class OVO:
 
             if self.crop_logger is not None:
                 # as we pass a filtered binary_maps, our crops will be only for the 3dd segments that NEED updating
-                clip_embeds, crops = self._extract_clip(image, binary_maps).cpu()
-                self.crop_logger.add_keyframe( kf_id=kf_id, segment_ids=matched_ins_ids, crops=crops.detach().cpu().clone())
+                clip_embeds, crops = self._extract_clip(image, binary_maps)
+                self.crop_logger.add_keyframe( kf_id=kf_id, segment_ids=matched_ins_ids, crops=crops)
             else:
                 clip_embeds = self._extract_clip(image, binary_maps).cpu()
 
@@ -456,12 +457,13 @@ class OVO:
             - climp_embeds: each level/key stores a list of numpy arrays with dim (N, self.clip_dim).    
         """
         image = torch.from_numpy(image.transpose((2,0,1))).to(self.device)
-        result = self.clip_generator.extract_clip(image, binary_maps, self.config.get("return_all_clips", False)).cpu()
         if self.crop_logger is not None:
+            result = self.clip_generator.extract_clip(image, binary_maps, self.config.get("return_all_clips", False), return_crops=True)
             clip_embeds, crops = result
             # ERROR ...
-            return clip_embeds, crops
+            return clip_embeds.cpu(), crops
         else:
+            result = self.clip_generator.extract_clip(image, binary_maps, self.config.get("return_all_clips", False)).cpu()
             clip_embeds = result
         return clip_embeds
     

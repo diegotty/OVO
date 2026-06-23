@@ -1,0 +1,1660 @@
+{
+  "format_version": 1,
+  "segment_ids_file": "segment_ids.npy",
+  "descriptors_file": "descriptors.npy",
+  "segments": [
+    {
+      "id": 0,
+      "descriptor_row": 0,
+      "points_file": "segments/00000/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 103079,
+          "masked_crop_file": "segments/00000/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 92428,
+          "masked_crop_file": "segments/00000/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 88298,
+          "masked_crop_file": "segments/00000/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 71223,
+          "masked_crop_file": "segments/00000/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 65217,
+          "masked_crop_file": "segments/00000/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 47520,
+          "masked_crop_file": "segments/00000/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 45981,
+          "masked_crop_file": "segments/00000/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 41648,
+          "masked_crop_file": "segments/00000/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00000/crops/kf_00007/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "descriptor_row": 1,
+      "points_file": "segments/00001/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 81193,
+          "masked_crop_file": "segments/00001/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 77748,
+          "masked_crop_file": "segments/00001/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 73215,
+          "masked_crop_file": "segments/00001/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 57557,
+          "masked_crop_file": "segments/00001/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 49164,
+          "masked_crop_file": "segments/00001/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 38246,
+          "masked_crop_file": "segments/00001/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 17688,
+          "masked_crop_file": "segments/00001/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 15290,
+          "masked_crop_file": "segments/00001/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 15030,
+          "masked_crop_file": "segments/00001/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00001/crops/kf_00002/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "descriptor_row": 2,
+      "points_file": "segments/00002/points.npy",
+      "keyframe_ids": [
+        0,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 12952,
+          "masked_crop_file": "segments/00002/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00002/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 11357,
+          "masked_crop_file": "segments/00002/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00002/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 9029,
+          "masked_crop_file": "segments/00002/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00002/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 7225,
+          "masked_crop_file": "segments/00002/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00002/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 5177,
+          "masked_crop_file": "segments/00002/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00002/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 2910,
+          "masked_crop_file": "segments/00002/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00002/crops/kf_00004/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "descriptor_row": 3,
+      "points_file": "segments/00003/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 60649,
+          "masked_crop_file": "segments/00003/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 59178,
+          "masked_crop_file": "segments/00003/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 54260,
+          "masked_crop_file": "segments/00003/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 49602,
+          "masked_crop_file": "segments/00003/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 46348,
+          "masked_crop_file": "segments/00003/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 45884,
+          "masked_crop_file": "segments/00003/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 43829,
+          "masked_crop_file": "segments/00003/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 42474,
+          "masked_crop_file": "segments/00003/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 33736,
+          "masked_crop_file": "segments/00003/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 15053,
+          "masked_crop_file": "segments/00003/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00003/crops/kf_00009/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "descriptor_row": 4,
+      "points_file": "segments/00004/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 27216,
+          "masked_crop_file": "segments/00004/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00004/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 17564,
+          "masked_crop_file": "segments/00004/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00004/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 13210,
+          "masked_crop_file": "segments/00004/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00004/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 12575,
+          "masked_crop_file": "segments/00004/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00004/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 4322,
+          "masked_crop_file": "segments/00004/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00004/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 3777,
+          "masked_crop_file": "segments/00004/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00004/crops/kf_00001/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "descriptor_row": 5,
+      "points_file": "segments/00005/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 159146,
+          "masked_crop_file": "segments/00005/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 146331,
+          "masked_crop_file": "segments/00005/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 134516,
+          "masked_crop_file": "segments/00005/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 69928,
+          "masked_crop_file": "segments/00005/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 52323,
+          "masked_crop_file": "segments/00005/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 47796,
+          "masked_crop_file": "segments/00005/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 47666,
+          "masked_crop_file": "segments/00005/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 46041,
+          "masked_crop_file": "segments/00005/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 44704,
+          "masked_crop_file": "segments/00005/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 3999,
+          "masked_crop_file": "segments/00005/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00005/crops/kf_00005/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "descriptor_row": 6,
+      "points_file": "segments/00006/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 10636,
+          "masked_crop_file": "segments/00006/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 9944,
+          "masked_crop_file": "segments/00006/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 9284,
+          "masked_crop_file": "segments/00006/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 9062,
+          "masked_crop_file": "segments/00006/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 6863,
+          "masked_crop_file": "segments/00006/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 5533,
+          "masked_crop_file": "segments/00006/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 4727,
+          "masked_crop_file": "segments/00006/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 4020,
+          "masked_crop_file": "segments/00006/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 3024,
+          "masked_crop_file": "segments/00006/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00006/crops/kf_00002/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "descriptor_row": 7,
+      "points_file": "segments/00007/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 127358,
+          "masked_crop_file": "segments/00007/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 126900,
+          "masked_crop_file": "segments/00007/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 126333,
+          "masked_crop_file": "segments/00007/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 124435,
+          "masked_crop_file": "segments/00007/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 118357,
+          "masked_crop_file": "segments/00007/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 108576,
+          "masked_crop_file": "segments/00007/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 96203,
+          "masked_crop_file": "segments/00007/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 65482,
+          "masked_crop_file": "segments/00007/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 12546,
+          "masked_crop_file": "segments/00007/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00007/crops/kf_00008/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "descriptor_row": 8,
+      "points_file": "segments/00008/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 85154,
+          "masked_crop_file": "segments/00008/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 34855,
+          "masked_crop_file": "segments/00008/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 34542,
+          "masked_crop_file": "segments/00008/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 31886,
+          "masked_crop_file": "segments/00008/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 24516,
+          "masked_crop_file": "segments/00008/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 22343,
+          "masked_crop_file": "segments/00008/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 21836,
+          "masked_crop_file": "segments/00008/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 18727,
+          "masked_crop_file": "segments/00008/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 16436,
+          "masked_crop_file": "segments/00008/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 14146,
+          "masked_crop_file": "segments/00008/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00008/crops/kf_00000/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "descriptor_row": 9,
+      "points_file": "segments/00009/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 11000,
+          "masked_crop_file": "segments/00009/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 10837,
+          "masked_crop_file": "segments/00009/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 10448,
+          "masked_crop_file": "segments/00009/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 9132,
+          "masked_crop_file": "segments/00009/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 8653,
+          "masked_crop_file": "segments/00009/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 7703,
+          "masked_crop_file": "segments/00009/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 6902,
+          "masked_crop_file": "segments/00009/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 6196,
+          "masked_crop_file": "segments/00009/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 5215,
+          "masked_crop_file": "segments/00009/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 5007,
+          "masked_crop_file": "segments/00009/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00009/crops/kf_00009/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "descriptor_row": 10,
+      "points_file": "segments/00010/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 13326,
+          "masked_crop_file": "segments/00010/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 8777,
+          "masked_crop_file": "segments/00010/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 7603,
+          "masked_crop_file": "segments/00010/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 7523,
+          "masked_crop_file": "segments/00010/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 7523,
+          "masked_crop_file": "segments/00010/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 7363,
+          "masked_crop_file": "segments/00010/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 7340,
+          "masked_crop_file": "segments/00010/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 7316,
+          "masked_crop_file": "segments/00010/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 7187,
+          "masked_crop_file": "segments/00010/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 1917,
+          "masked_crop_file": "segments/00010/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00010/crops/kf_00009/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "descriptor_row": 11,
+      "points_file": "segments/00011/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 9636,
+          "masked_crop_file": "segments/00011/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 8086,
+          "masked_crop_file": "segments/00011/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 7201,
+          "masked_crop_file": "segments/00011/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 6949,
+          "masked_crop_file": "segments/00011/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 6945,
+          "masked_crop_file": "segments/00011/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 6784,
+          "masked_crop_file": "segments/00011/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 6757,
+          "masked_crop_file": "segments/00011/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 6617,
+          "masked_crop_file": "segments/00011/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 6604,
+          "masked_crop_file": "segments/00011/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 6596,
+          "masked_crop_file": "segments/00011/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00011/crops/kf_00000/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "descriptor_row": 12,
+      "points_file": "segments/00012/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 77457,
+          "masked_crop_file": "segments/00012/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 53395,
+          "masked_crop_file": "segments/00012/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 23526,
+          "masked_crop_file": "segments/00012/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 16677,
+          "masked_crop_file": "segments/00012/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 15859,
+          "masked_crop_file": "segments/00012/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 8344,
+          "masked_crop_file": "segments/00012/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 5446,
+          "masked_crop_file": "segments/00012/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 1980,
+          "masked_crop_file": "segments/00012/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 1609,
+          "masked_crop_file": "segments/00012/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00012/crops/kf_00004/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "descriptor_row": 13,
+      "points_file": "segments/00013/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 109535,
+          "masked_crop_file": "segments/00013/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 96363,
+          "masked_crop_file": "segments/00013/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 93660,
+          "masked_crop_file": "segments/00013/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 63234,
+          "masked_crop_file": "segments/00013/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 63152,
+          "masked_crop_file": "segments/00013/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 46176,
+          "masked_crop_file": "segments/00013/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 34677,
+          "masked_crop_file": "segments/00013/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 34617,
+          "masked_crop_file": "segments/00013/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 24977,
+          "masked_crop_file": "segments/00013/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 18011,
+          "masked_crop_file": "segments/00013/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00013/crops/kf_00005/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "descriptor_row": 14,
+      "points_file": "segments/00014/points.npy",
+      "keyframe_ids": [
+        0,
+        7,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 2520,
+          "masked_crop_file": "segments/00014/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00014/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 1384,
+          "masked_crop_file": "segments/00014/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00014/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 1210,
+          "masked_crop_file": "segments/00014/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00014/crops/kf_00000/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "descriptor_row": 15,
+      "points_file": "segments/00015/points.npy",
+      "keyframe_ids": [
+        0,
+        7
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 1629,
+          "masked_crop_file": "segments/00015/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00015/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 1034,
+          "masked_crop_file": "segments/00015/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00015/crops/kf_00007/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "descriptor_row": 16,
+      "points_file": "segments/00016/points.npy",
+      "keyframe_ids": [
+        0,
+        5,
+        8
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 8796,
+          "masked_crop_file": "segments/00016/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00016/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 8249,
+          "masked_crop_file": "segments/00016/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00016/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 6398,
+          "masked_crop_file": "segments/00016/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00016/crops/kf_00008/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "descriptor_row": 17,
+      "points_file": "segments/00017/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 81833,
+          "masked_crop_file": "segments/00017/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 79636,
+          "masked_crop_file": "segments/00017/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 79443,
+          "masked_crop_file": "segments/00017/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 76267,
+          "masked_crop_file": "segments/00017/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 7,
+          "source_frame_id": 70,
+          "mask_area": 48329,
+          "masked_crop_file": "segments/00017/crops/kf_00007/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00007/bbox.png"
+        },
+        {
+          "keyframe_id": 8,
+          "source_frame_id": 80,
+          "mask_area": 36203,
+          "masked_crop_file": "segments/00017/crops/kf_00008/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00008/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 17749,
+          "masked_crop_file": "segments/00017/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 17587,
+          "masked_crop_file": "segments/00017/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 11944,
+          "masked_crop_file": "segments/00017/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00009/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 8791,
+          "masked_crop_file": "segments/00017/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00017/crops/kf_00006/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "descriptor_row": 18,
+      "points_file": "segments/00018/points.npy",
+      "keyframe_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 47888,
+          "masked_crop_file": "segments/00018/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00018/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 47516,
+          "masked_crop_file": "segments/00018/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00018/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 47132,
+          "masked_crop_file": "segments/00018/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00018/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 46381,
+          "masked_crop_file": "segments/00018/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00018/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 45321,
+          "masked_crop_file": "segments/00018/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00018/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 44703,
+          "masked_crop_file": "segments/00018/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00018/crops/kf_00000/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "descriptor_row": 19,
+      "points_file": "segments/00019/points.npy",
+      "keyframe_ids": [
+        0,
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 0,
+          "source_frame_id": 0,
+          "mask_area": 25022,
+          "masked_crop_file": "segments/00019/crops/kf_00000/masked.png",
+          "bbox_crop_file": "segments/00019/crops/kf_00000/bbox.png"
+        },
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 12296,
+          "masked_crop_file": "segments/00019/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00019/crops/kf_00009/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "descriptor_row": 20,
+      "points_file": "segments/00020/points.npy",
+      "keyframe_ids": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 1106,
+          "masked_crop_file": "segments/00020/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00020/crops/kf_00004/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 1099,
+          "masked_crop_file": "segments/00020/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00020/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 1066,
+          "masked_crop_file": "segments/00020/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00020/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 1047,
+          "masked_crop_file": "segments/00020/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00020/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 995,
+          "masked_crop_file": "segments/00020/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00020/crops/kf_00006/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "descriptor_row": 21,
+      "points_file": "segments/00021/points.npy",
+      "keyframe_ids": [
+        1,
+        2,
+        3
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 2913,
+          "masked_crop_file": "segments/00021/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00021/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 2906,
+          "masked_crop_file": "segments/00021/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00021/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 2770,
+          "masked_crop_file": "segments/00021/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00021/crops/kf_00001/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "descriptor_row": 22,
+      "points_file": "segments/00022/points.npy",
+      "keyframe_ids": [
+        1,
+        3
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 1242,
+          "masked_crop_file": "segments/00022/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00022/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 1230,
+          "masked_crop_file": "segments/00022/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00022/crops/kf_00001/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "descriptor_row": 23,
+      "points_file": "segments/00023/points.npy",
+      "keyframe_ids": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 5,
+          "source_frame_id": 50,
+          "mask_area": 1083,
+          "masked_crop_file": "segments/00023/crops/kf_00005/masked.png",
+          "bbox_crop_file": "segments/00023/crops/kf_00005/bbox.png"
+        },
+        {
+          "keyframe_id": 6,
+          "source_frame_id": 60,
+          "mask_area": 1033,
+          "masked_crop_file": "segments/00023/crops/kf_00006/masked.png",
+          "bbox_crop_file": "segments/00023/crops/kf_00006/bbox.png"
+        },
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 912,
+          "masked_crop_file": "segments/00023/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00023/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 908,
+          "masked_crop_file": "segments/00023/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00023/crops/kf_00001/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "descriptor_row": 24,
+      "points_file": "segments/00024/points.npy",
+      "keyframe_ids": [
+        1,
+        2,
+        3
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 2,
+          "source_frame_id": 20,
+          "mask_area": 28196,
+          "masked_crop_file": "segments/00024/crops/kf_00002/masked.png",
+          "bbox_crop_file": "segments/00024/crops/kf_00002/bbox.png"
+        },
+        {
+          "keyframe_id": 1,
+          "source_frame_id": 10,
+          "mask_area": 28039,
+          "masked_crop_file": "segments/00024/crops/kf_00001/masked.png",
+          "bbox_crop_file": "segments/00024/crops/kf_00001/bbox.png"
+        },
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 23259,
+          "masked_crop_file": "segments/00024/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00024/crops/kf_00003/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "descriptor_row": 25,
+      "points_file": "segments/00025/points.npy",
+      "keyframe_ids": [
+        3,
+        4
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 3,
+          "source_frame_id": 30,
+          "mask_area": 474,
+          "masked_crop_file": "segments/00025/crops/kf_00003/masked.png",
+          "bbox_crop_file": "segments/00025/crops/kf_00003/bbox.png"
+        },
+        {
+          "keyframe_id": 4,
+          "source_frame_id": 40,
+          "mask_area": 469,
+          "masked_crop_file": "segments/00025/crops/kf_00004/masked.png",
+          "bbox_crop_file": "segments/00025/crops/kf_00004/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "descriptor_row": 26,
+      "points_file": "segments/00026/points.npy",
+      "keyframe_ids": [
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 540,
+          "masked_crop_file": "segments/00026/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00026/crops/kf_00009/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "descriptor_row": 27,
+      "points_file": "segments/00027/points.npy",
+      "keyframe_ids": [
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 8002,
+          "masked_crop_file": "segments/00027/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00027/crops/kf_00009/bbox.png"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "descriptor_row": 28,
+      "points_file": "segments/00028/points.npy",
+      "keyframe_ids": [
+        9
+      ],
+      "top_views": [
+        {
+          "keyframe_id": 9,
+          "source_frame_id": 90,
+          "mask_area": 2585,
+          "masked_crop_file": "segments/00028/crops/kf_00009/masked.png",
+          "bbox_crop_file": "segments/00028/crops/kf_00009/bbox.png"
+        }
+      ]
+    }
+  ]
+}
