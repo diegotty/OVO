@@ -467,12 +467,12 @@ def compute_spatial_relationships(config, region_struct):
     relations = [
         "above", 
         "below", 
-        "closest", 
-        "second_closest", 
-        "third_closest", 
-        "farthest",
-        "second_farthest",
-        "third_farthest",
+        # "closest", 
+        # "second_closest", 
+        # "third_closest", 
+        # "farthest",
+        # "second_farthest",
+        # "third_farthest",
         "between", 
         "beside", 
         "near", 
@@ -496,33 +496,33 @@ def compute_spatial_relationships(config, region_struct):
     for r in relations:
         region_struct["relationships"].update({r:{}})
 
-    same_class_objects = group_by_class(objects)
+    # same_class_objects = group_by_class(objects)
 
     # requires all objects: closest, farthest
     for i in range(len(objects)):
         object_id = objects[i]["object_id"]
-        closest_objs, farthest_objs = relate_ordered(i, objects, same_class_objects, ordered_thres)
+        # closest_objs, farthest_objs = relate_ordered(i, objects, same_class_objects, ordered_thres)
 
         # schema 1: anchor: [[closest, 2nd_closest, 3rd_closest], [closest, 2nd_closest, ...]]
         # region_struct["relationships"]["closest"].update({object_id: closest_objs})
         # region_struct["relationships"]["farthest"].update({object_id: farthest_objs})
 
         # schema 2: split, anchor: [closest, ...], anchor: [second_closest, ...]
-        first_closest = [obj[0] for obj in closest_objs]
-        second_closest = [obj[1] for obj in closest_objs if len(obj)>1]
-        third_closest = [obj[2] for obj in closest_objs if len(obj)>2]
+        # first_closest = [obj[0] for obj in closest_objs]
+        # second_closest = [obj[1] for obj in closest_objs if len(obj)>1]
+        # third_closest = [obj[2] for obj in closest_objs if len(obj)>2]
 
-        region_struct["relationships"]["closest"].update({object_id: first_closest})
-        region_struct["relationships"]["second_closest"].update({object_id: second_closest})
-        region_struct["relationships"]["third_closest"].update({object_id: third_closest})
+        # region_struct["relationships"]["closest"].update({object_id: first_closest})
+        # region_struct["relationships"]["second_closest"].update({object_id: second_closest})
+        # region_struct["relationships"]["third_closest"].update({object_id: third_closest})
 
-        first_farthest = [obj[0] for obj in farthest_objs]
-        second_farthest = [obj[1] for obj in farthest_objs if len(obj)>1]
-        third_farthest = [obj[2] for obj in farthest_objs if len(obj)>2]
+        # first_farthest = [obj[0] for obj in farthest_objs]
+        # second_farthest = [obj[1] for obj in farthest_objs if len(obj)>1]
+        # third_farthest = [obj[2] for obj in farthest_objs if len(obj)>2]
 
-        region_struct["relationships"]["farthest"].update({object_id: first_farthest})
-        region_struct["relationships"]["second_farthest"].update({object_id: second_farthest})
-        region_struct["relationships"]["third_farthest"].update({object_id: third_farthest})
+        # region_struct["relationships"]["farthest"].update({object_id: first_farthest})
+        # region_struct["relationships"]["second_farthest"].update({object_id: second_farthest})
+        # region_struct["relationships"]["third_farthest"].update({object_id: third_farthest})
         # store sorted list of closest and farthest objects
 
         # pairwise (binary) relations: above, below, in
