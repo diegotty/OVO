@@ -7,7 +7,7 @@ import utils
 SCRIPT_DIR = Path(__file__).resolve().parent
 
 # OVO/
-REPO_DIR = SCRIPT_DIR.parent.parent
+REPO_ROOT = SCRIPT_DIR.parent.parent
 
 def make_scene():
     config_path = SCRIPT_DIR / "config.yaml"
@@ -25,6 +25,10 @@ def make_scene():
     relations = relation_extraction.compute_spatial_relationships(config, region)
 
 
+    utils.print_relations(region)
     # for relation, anchors in region["relationships"].items():
-    #     count = sum(len(targets) for targets in anchors.values())
-    #     print(f"{relation}: {count}")
+        # count = sum(len(targets) for targets in anchors.values())
+        # print(f"{relation}: {count}")
+
+if __name__ == "__main__":
+    make_scene()

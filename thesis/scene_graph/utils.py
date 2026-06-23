@@ -1,4 +1,4 @@
-rom typing import Dict, Any
+from typing import Dict, Any
 import yaml
 import json
 from pathlib import Path
@@ -107,5 +107,16 @@ def print_region_summary(region: dict) -> None:
 
     print("======================\n", flush=True)
 
-if __name__ == "__main__":
-    make_scene()
+def print_relations(region):
+    for relation, anchors in region["relationships"].items():
+        print(f"\n=== {relation.upper()} ===")
+
+        for anchor_id, targets in anchors.items():
+            if not targets:
+                continue
+
+            for target in targets:
+                if relation == "between":
+                    print(f"{anchor_id} {relation} {target[0]} and {target[1]}" )
+                else:
+                    print(f"{target} {relation} {anchor_id}")
