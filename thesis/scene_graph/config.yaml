@@ -1,5 +1,5 @@
-input_path: "/path/to/dataset"
-output_folder: "/path/to/output"
+input_path: "/outputs/small_test_orb_exported/"
+output_folder: "/outputs/small_test_orb_geometry/"
 
 # Minimum horizontal intersection-over-minimum required for above/below/on relations
 vertical_iom: 0.5

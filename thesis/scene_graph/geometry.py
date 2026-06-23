@@ -1,8 +1,5 @@
-from __future__ import annotations
-
 from collections.abc import Iterable, Mapping
 from typing import Any
-
 import numpy as np
 
 
@@ -58,11 +55,14 @@ def compute_aabb( segment_id: int, points: np.ndarray) -> dict[str, Any]:
         "bbox_min": bbox_min,
         "bbox_max": bbox_max,
         "center": center.astype(np.float32, copy=False),
-        "centroid": centroid.astype(np.float32, copy=False),
+        # "centroid": centroid.astype(np.float32, copy=False),
         "size": size.astype(np.float32, copy=False),
         "volume": float(np.prod(size)),
-        "footprint_area": float(size[0] * size[1]),
-        "diagonal_length": float(np.linalg.norm(size)),
+        # "footprint_area": float(size[0] * size[1]),
+        # "diagonal_length": float(np.linalg.norm(size)),
+        "nyu_id" : -1,
+        "nyu_label" : "unknown",
+        "raw_label" : "unknown"
     }
 
 
@@ -98,14 +98,11 @@ def build_region(objects: Iterable[Mapping[str, Any]], region_id: int = 0, regio
         "region_id": int(region_id),
         "region_name": region_name,
         "region_bbox": region_geometry["bbox"],
-        "bbox_min": region_geometry["bbox_min"],
-        "bbox_max": region_geometry["bbox_max"],
-        "center": region_geometry["center"],
-        "size": region_geometry["size"],
-        "volume": region_geometry["volume"],
+        # "bbox_min": region_geometry["bbox_min"],
+        # "bbox_max": region_geometry["bbox_max"],
+        # "center": region_geometry["center"],
+        # "size": region_geometry["size"],
+        # "volume": region_geometry["volume"],
         "objects": objects,
         "relationships": {},
-        "nyu_id" : -1,
-        "nyu_label" : "unknown",
-        # "raw_label" : "unknown"
     }

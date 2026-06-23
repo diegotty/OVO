@@ -61,7 +61,7 @@ def load_segments(scene_dir, min_points=1):
         if segment_id not in metadata_by_id:
             raise RuntimeError(f"segment {segment_id} pesent in segments_id.npy but not in scene.json")
         seg_metadata = metadata_by_id[segment_id]
-        descriptor_row = int(seg_metadata["descriptor_row"]
+        descriptor_row = int(seg_metadata["descriptor_row"])
         points_file = scene_dir / seg_metadata["points_file"]
         points = np.load(points_file)
         # finite_mask = np.isfinite(points).all(axis=1)
@@ -77,4 +77,3 @@ def load_segments(scene_dir, min_points=1):
             "descriptor_row" : descriptor_row,
         })
     return segments
-
