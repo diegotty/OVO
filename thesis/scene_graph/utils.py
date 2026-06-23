@@ -1,7 +1,8 @@
-from typing import Dict, Any
+rom typing import Dict, Any
 import yaml
 import json
 from pathlib import Path
+from pprint import pprint
 from typing import Any
 import numpy as np
 
@@ -47,10 +48,10 @@ def load_segments(scene_dir, min_points=1):
     segment_ids_file = scene_dir / scene_metadata["segment_ids_file"]
     descriptors_file = scene_dir / scene_metadata["descriptors_file"]
     segment_ids = np.load(segment_ids_file).reshape(-1).astype(np.int64)
-    descriptors = np.load(descriptors_file).reshape(-1).astype(np.int64)
+    descriptors = np.load(descriptors_file).astype(np.float32, copy=False)
     
     if len(segment_ids) != len(descriptors):
-        raise RuntimeError("segment_ids.py and descriptors.py might not be matched")
+        raise RuntimeError("segment_ids.npy and descriptors.py might not be matched")
 
     metadata_by_id = dict()
     for segment in scene_metadata["segments"]:
@@ -68,7 +69,7 @@ def load_segments(scene_dir, min_points=1):
         # points = points[finite_mask]
         if len(points) < min_points:
             continue
-        descriptor = descriptors[descriptor_row].copy()
+        descriptor = descriptors[descriptor_row].reshape(-1).copy()
         segments.append({
             "id" : segment_id,
             "points" : points,
@@ -77,3 +78,34 @@ def load_segments(scene_dir, min_points=1):
             "descriptor_row" : descriptor_row,
         })
     return segments
+
+def print_region_summary(region: dict) -> None:
+    objects = region["objects"]
+
+    print("\n=== REGION SUMMARY ===", flush=True)
+    print("region_id:", region["region_id"], flush=True)
+    print("region_name:", region["region_name"], flush=True)
+    print("number of objects:", len(objects), flush=True)
+
+    region_bbox = np.asarray(region["region_bbox"])
+    print("region_bbox shape:", region_bbox.shape, flush=True)
+    print("region_bbox:", flush=True)
+    print(region_bbox, flush=True)
+
+    print("\n=== OBJECTS ===", flush=True)
+
+    for obj in objects:
+        print(
+            f"object_id={obj['object_id']} "
+            f"center={np.asarray(obj['center'])} "
+            f"size={np.asarray(obj['size'])} "
+            f"volume={obj['volume']:.6f} "
+            f"bbox_shape={np.asarray(obj['bbox']).shape} "
+            f"nyu_id={obj.get('nyu_id')}",
+            flush=True,
+        )
+
+    print("======================\n", flush=True)
+
+if __name__ == "__main__":
+    make_scene()

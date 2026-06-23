@@ -460,7 +460,7 @@ def relate_near(near_thres, anchor_idx, objects, region_bbox):
     near_obj_ids = [objects[ind]["object_id"] for ind in near_objs]
     return near_obj_ids
 
-def compute_spatial_relationships(args, region_struct):
+def compute_spatial_relationships(config, region_struct):
     # compute spatial relationships: above/below, closest/farthest, between
     objects = region_struct["objects"] # list of dicts
     region_bbox = region_struct["region_bbox"]
@@ -479,19 +479,19 @@ def compute_spatial_relationships(args, region_struct):
         "in", 
         "on", 
         "hanging_on"]
-    between_iom = args.between_iom
-    vertical_iom = args.vertical_iom
-    near_thres = args.near_thres
-    overlap_thres = args.overlap_thres
-    symmetry_thres = args.symmetry_thres
-    distance_thres = args.distance_thres
-    anchor_size_thres = args.anchor_size_thres
-    on_thres = args.on_thres
-    in_thres = args.in_thres
-    under_thres = args.under_thres
-    hanging_thres_h = args.hanging_thres_h
-    hanging_thres_v = args.hanging_thres_v
-    ordered_thres = args.ordered_thres
+    between_iom = config["between_iom"]
+    vertical_iom = config["vertical_iom"]
+    near_thres = config["near_thres"]
+    overlap_thres = config["overlap_thres"]
+    symmetry_thres = config["symmetry_thres"]
+    distance_thres = config["distance_thres"]
+    anchor_size_thres = config["anchor_size_thres"]
+    on_thres = config["on_thres"]
+    in_thres = config["in_thres"]
+    under_thres = config["under_thres"]
+    hanging_thres_h = config["hanging_thres_h"]
+    hanging_thres_v = config["hanging_thres_v"]
+    ordered_thres = config["ordered_thres"]
 
     for r in relations:
         region_struct["relationships"].update({r:{}})
