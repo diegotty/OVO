@@ -1,0 +1,8 @@
+- [ ] make affinity graph
+- [ ] make relations graph
+- [ ] make eval for fragmentation
+  - [ ] validate crop pipeline (is the # of final segments the same as the # of crop-saved segments)
+  - [ ] 
+- [ ] make node fusion algorithm type beat
+
+

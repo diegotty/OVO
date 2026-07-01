@@ -6,9 +6,15 @@ ovoslam/submodules/segment-anything-langsplat
 /data/output/
 /data/input/
 *.pt
+*.aux
+*.fdb_latexmk
+*.log
+*.gz
+*.fls
 *.pth
 *.npz
 *.ply
 *.pcd
 *.ipynb
 __pycache__
+

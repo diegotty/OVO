@@ -5,6 +5,7 @@ from pathlib import Path
 from pprint import pprint
 from typing import Any
 import numpy as np
+import networkx as nx
 
 def load_config(path: str) -> Dict[str, Any]:
     """
@@ -79,6 +80,7 @@ def load_segments(scene_dir, min_points=1):
         })
     return segments
 
+# ai-made
 def print_region_summary(region: dict) -> None:
     objects = region["objects"]
 
@@ -120,3 +122,101 @@ def print_relations(region):
                     print(f"{anchor_id} {relation} {target[0]} and {target[1]}" )
                 else:
                     print(f"{target} {relation} {anchor_id}")
+
+def print_relation_graph_summary(
+    graph: nx.MultiDiGraph,
+) -> None:
+    """
+    Print basic graph and relation statistics.
+    """
+
+    relation_counts = Counter(
+        edge_data["relation"]
+        for _, _, edge_data in graph.edges(data=True)
+    )
+
+    print("\n=== FULL RELATION GRAPH ===")
+    print("nodes:", graph.number_of_nodes())
+    print("edges:", graph.number_of_edges())
+    print("affinity filtered:", graph.graph["affinity_filtered"])
+
+    print("\nRelations:")
+
+    for relation_name in graph.graph["relation_set"]:
+        print(
+            f"{relation_name}: "
+            f"{relation_counts.get(relation_name, 0)}"
+        )
+
+def print_relation_graph_edges(
+    graph: nx.MultiDiGraph,
+) -> None:
+    print("\n=== RELATION EDGES ===")
+
+    for source, target, key, data in graph.edges(
+        keys=True,
+        data=True,
+    ):
+        print(
+            f"{source} --[{data['relation']}]--> {target}"
+        )
+def validate_relation_graph(
+    graph: nx.MultiDiGraph,
+) -> None:
+    """
+    Validate expected inverse and symmetric relations.
+    """
+
+    errors = []
+
+    for source, target, key, data in graph.edges(
+        keys=True,
+        data=True,
+    ):
+        relation = data["relation"]
+
+        if relation == "above":
+            if not graph.has_edge(
+                target,
+                source,
+                key="below",
+            ):
+                errors.append(
+                    f"{source} above {target}, "
+                    f"but {target} below {source} is missing"
+                )
+
+        elif relation == "below":
+            if not graph.has_edge(
+                target,
+                source,
+                key="above",
+            ):
+                errors.append(
+                    f"{source} below {target}, "
+                    f"but {target} above {source} is missing"
+                )
+
+        elif relation == "near":
+            if not graph.has_edge(
+                target,
+                source,
+                key="near",
+            ):
+                errors.append(
+                    f"{source} near {target}, "
+                    f"but reverse near edge is missing"
+                )
+
+    if errors:
+        print("\n=== RELATION VALIDATION ERRORS ===")
+
+        for error in errors[:20]:
+            print(error)
+
+        print("total errors:", len(errors))
+
+    else:
+        print(
+            "\nRelation graph validation passed."
+        )
