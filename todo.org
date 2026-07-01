@@ -1,5 +1,8 @@
-- [ ] make affinity graph
-- [ ] make relations graph
+- [x] make affinity graph
+- [x] make relations graph
+- [ ] improve relations extractor
+  - [ ] semantic gating for in/on/
+- [ ] understand when OVO runs 3D segment merging
 - [ ] make eval for fragmentation
   - [ ] validate crop pipeline (is the # of final segments the same as the # of crop-saved segments)
   - [ ] 

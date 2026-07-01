@@ -8,7 +8,6 @@ import os
 import pandas as pd
 from shapely.geometry import Polygon
 from bbox_utils import *
-from special_relation_classes import *
 from tqdm import tqdm
 from time import perf_counter
 import multiprocessing as mp
