@@ -10,7 +10,7 @@ from pathlib import Path
 # recursive function that takes prints `value`
 def summarize(value, max_depth, depth = 0):
     indent = "  " * depth
-    max_items = 340
+    max_items = 1000
 
     #base case
     if depth >= max_depth:

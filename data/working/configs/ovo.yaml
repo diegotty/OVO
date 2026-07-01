@@ -3,7 +3,7 @@ checkpoint_path: null
 use_wandb: False
 device: cuda
 data:
-  frame_limit: 100 # 100 #-1 # for debugging, set to -1 to disable
+  frame_limit: -1 # 100 #-1 # for debugging, set to -1 to disable
 seed: 0
 slam:
   config_path: data/working/configs/slam

@@ -431,6 +431,7 @@ class OVO:
                     fused_objects[instance2.id] = instance1.id
             objects[instance1.id] = instance1
         print(f"Semantic Map update: removed {len(objects_to_del)}, fused {len(fused_objects)} instances")
+        self.logger.update_n_fuses(fused_objects)
         # 3. Updated saved info
         for id2, id1 in fused_objects.items():
             for kf in self.objects[id2].kfs_ids:

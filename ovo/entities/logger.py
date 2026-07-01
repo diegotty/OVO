@@ -12,7 +12,7 @@ class Logger:
         (self.output_path / "logger").mkdir(exist_ok=True, parents=True)
         (self.output_path / "logger" / "segment_vis").mkdir(exist_ok=True, parents=True)
         stat_keys = [
-            "frame_id", "t_sam", "t_obj","n_obj", "n_matches", "t_up", "t_seg",   "t_clip", "avg_fps", "ram", "vram", "spf"]
+            "frame_id", "t_sam", "t_obj","n_obj", "n_matches", "t_up", "t_seg",   "t_clip", "avg_fps", "ram", "vram", "spf", "n_fuses"] 
         
         self.stats ={key: [] for key in stat_keys}
         self.python_process = psutil.Process(pid)
@@ -73,6 +73,8 @@ class Logger:
                     "Semantic/ram": ram_used,
                 }
             )
+    def update_n_fuses(self, n_fuses) -> None:
+        self.stats['n_fuses'].append(len(n_fuses))
 
     def log_max_memory_usage(self) -> None:
         """
