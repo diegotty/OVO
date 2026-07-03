@@ -1,11 +1,31 @@
 - [x] make affinity graph
 - [x] make relations graph
+
+- [-] persistence-based node admission
+  - [x] get some stats on keyframe appearances
+  - [ ] choose k_min + points_min
+
+- [ ] 3d segment fusion ? 
+  - [x] get some stats on how many times we run it
+  - [ ] run it more times ?
+
 - [ ] improve relations extractor
   - [ ] semantic gating for in/on/
-- [ ] understand when OVO runs 3D segment merging
+- [x] understand when OVO runs 3D segment merging
 - [ ] make eval for fragmentation
   - [ ] validate crop pipeline (is the # of final segments the same as the # of crop-saved segments)
-  - [ ] 
 - [ ] make node fusion algorithm type beat
+- [ ] fix output extractor
+
+* actual things we are doing that we can talk about as our own contributions .....
+1. persistence-based node admission (k_min)
+2. [affinity graph]-based 3d segment fusion
+3. spatial relations 3DSG
+4. [optional] embedding space negative concept-set (to discard non-object nodes)
 
 
+* affinity graph logic
+  - edges represent possible fusion candidates
+  - some edges exceed the fusion threshold, and get put into a queue of will_fuse elements
+  - after the fusion of two elements, we only re-calculate the fusion affinity with the neighboring nodes (of absorbed and suriviving)
+  - we update those edges
