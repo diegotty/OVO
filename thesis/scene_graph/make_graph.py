@@ -1,9 +1,10 @@
 from pathlib import Path
 import networkx as nx
-import relation_extraction
-import geometry
-import load_utils
-import ai_utils
+from spatial_relations import relation_extraction
+import spatial_graph
+from spatial_relations import geometry
+import fusion_graph
+from utils import ai_utils, load_utils, graph_utils
 
 # OVO/thesis/scene_graph/
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -28,31 +29,34 @@ def make_scene():
     region = geometry.build_region(objects)
     ai_utils.print_region_summary(region)
 
-    # compute spatial relationships between objects
-    affinity_graph = g_gen.build_affinity_graph(
-        region = region, 
-        segments = segments, 
-        semantic_weight = config['semantic_weight'], 
-        distance_scale = config['distance_scale'],
-        affinity_threshold = config['affinity_threshold']
-    )
+    fusion_thresholds = config['fusion'].copy()
+    fusion_thresholds['k_top_views'] = config['k_top_views']
+
+    fuse_graph = fusion_graph.FusionGraph(region, segments, fusion_thresholds)
+    spatial_graph = None
+    
 
     # region is modified in place, returns list of relation classes
     spatial_relations = relation_extraction.compute_spatial_relations(config, region)
-    ai_tils.print_relations(region)
+    ai_utils.print_relations(region)
 
     # spatial relations graph
-    graph = nx.MultiDiGraph()
-    nodes = g_gen.add_segment_nodes(graph, region,segments)
+    # graph = nx.MultiDiGraph()
+    # nodes = graph_utils.add_segment_nodes(graph, region,segments)
 
-    # .... get fragmentation-robust nodes and pass them to build_spatial_graph
-
-    spatial_relations_graph = g_gen.build_spatial_graph(graph, nodes, region, spatial_relations)
+    # spatial_relations_graph = spatial_graph.build_spatial_graph(graph, nodes, region, spatial_relations)
     
     # prints&validation utils
     ai_utils.print_relation_graph_summary(spatial_relations_graph)
     ai_utils.print_relation_graph_edges(spatial_relations_graph)
     ai_utils.validate_relation_graph(spatial_relations_graph)
 
+def update_graphs(fuse_graph, spatial_relations):
+    update_results = fuse_graph.update_graph()
+    
+
 if __name__ == "__main__":
     make_scene()
+    if spatial_graph is None:
+        spatial_graph = 
+

@@ -6,6 +6,7 @@ from pprint import pprint
 from typing import Any
 import numpy as np
 import networkx as nx
+from scene_graph.segment import Segment, SegmentView, SegmentStore
 
 def load_config(path: str) -> Dict[str, Any]:
     """
@@ -39,6 +40,12 @@ def update_recursive(dict1: Dict[str,Any], dict2: Dict[str,Any]) -> None:
         else:
             dict1[k] = v
 
+from dataclasses import dataclass
+from pathlib import Path
+import numpy as np
+
+
+
 def load_segments(scene_dir, min_points=1):
     scene_dir = Path(scene_dir).expanduser().resolve()
     scene_file = scene_dir / "scene.json"
@@ -52,11 +59,18 @@ def load_segments(scene_dir, min_points=1):
     descriptors = np.load(descriptors_file).astype(np.float32, copy=False)
     
     if len(segment_ids) != len(descriptors):
-        raise RuntimeError("segment_ids.npy and descriptors.py might not be matched")
+        raise RuntimeError("segment_ids.npy and descriptors.npy might not be matched")
 
     metadata_by_id = dict()
     for segment in scene_metadata["segments"]:
-        metadata_by_id[segment["id"]] = segment
+        segment_copy = segment.copy()
+        segment_copy['views'] = []
+        for view in segment.get('top_views', []):
+            view_descriptor_file = scene_dir / view['descriptor']
+            view_descriptor = np.load(view_descriptor_file).astype(np.float32, copy=False)
+            view_obj = SegmentView(view['keyframe_id'], view_descriptor, view['mask_area'])
+            segment_copy['views'].append(view_obj)
+        metadata_by_id[segment["id"]] = segment_copy
 
     segments = []
     for segment_id in segment_ids:
@@ -65,9 +79,10 @@ def load_segments(scene_dir, min_points=1):
         seg_metadata = metadata_by_id[segment_id]
         descriptor_row = int(seg_metadata["descriptor_row"])
         points_file = scene_dir / seg_metadata["points_file"]
+        top_views = seg_metadata['views']
         points = np.load(points_file)
-        # finite_mask = np.isfinite(points).all(axis=1)
-        # points = points[finite_mask]
+        finite_mask = np.isfinite(points).all(axis=1)
+        points = points[finite_mask]
         if len(points) < min_points:
             continue
         descriptor = descriptors[descriptor_row].reshape(-1).copy()
@@ -77,5 +92,13 @@ def load_segments(scene_dir, min_points=1):
             "points_file" : points_file,
             "descriptor" : descriptor,
             "descriptor_row" : descriptor_row,
+            'top_views' : top_views
         })
+        segment_obj = Segment(
+            id = segment_id,
+            points = points,
+            descriptor = descriptor,
+            top_views = top_views
+        )
+        segments.append(segment_obj)
     return segments

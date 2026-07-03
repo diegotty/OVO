@@ -366,7 +366,7 @@ class OVO:
             if self.crop_logger is not None:
                 # as we pass a filtered binary_maps, our crops will be only for the 3dd segments that NEED updating
                 clip_embeds, crops = self._extract_clip(image, binary_maps)
-                self.crop_logger.add_keyframe( kf_id=kf_id, segment_ids=matched_ins_ids, crops=crops)
+                self.crop_logger.add_keyframe(kf_id=kf_id, segment_ids=matched_ins_ids, crops=crops, embeds=clip_embeds)
             else:
                 clip_embeds = self._extract_clip(image, binary_maps).cpu()
 

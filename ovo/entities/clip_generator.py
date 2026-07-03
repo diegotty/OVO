@@ -129,7 +129,7 @@ class CLIPGenerator:
             - binary_maps (torch.Tensor): A tensor of (N, H, W) containing N binary maps, one for each segmented instance.
             - return_all: if True returns the three computed descriptors of each image in seg_images instead of merging them.
         Return:
-            - climp_embeds: list of numpy arrays with dim (N, self.clip_dim).        
+            - clip_embed: list of numpy arrays with dim (N, self.clip_dim).        
         """
         if self.embed_type == "TextRegion":
             return self.textregion.predict(image/255., binary_maps)

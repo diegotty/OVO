@@ -34,3 +34,11 @@ hanging_thres_v: 0.5
 
 # minimum separation used to determine whether closest/farthest rankings are sufficiently distinguishable
 ordered_thres: 0.2
+
+fusion:
+  distance_scale: 
+  distance_threshold:
+  point_distance_threshold:
+  semantic_threshold:
+  coverage_threshold:
+k_top_views: 10

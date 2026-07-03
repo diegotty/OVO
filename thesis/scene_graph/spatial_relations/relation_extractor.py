@@ -369,30 +369,30 @@ def relate_near(near_threshold, anchor_idx, objects):
 #     near_obj_ids = [objects[ind]["object_id"] for ind in near_objs]
 #     return near_obj_ids
 
-def compute_spatial_relations(config, region_struct):
-    objects = region_struct["objects"] # list of dicts
-    region_bbox = region_struct["region_bbox"]
-    relations = [
-        # "between", 
-        # "in", 
-        #"on",
-        # "beside", 
-        "above", 
-        "below", 
-        "near"]
-    between_iom = config["between_iom"]
-    vertical_iom = config["vertical_iom"]
-    near_thres = config["near_thres"]
-    overlap_thres = config["overlap_thres"]
-    symmetry_thres = config["symmetry_thres"]
-    distance_thres = config["distance_thres"]
-    anchor_size_thres = config["anchor_size_thres"]
-    on_thres = config["on_thres"]
-    in_thres = config["in_thres"]
-    under_thres = config["under_thres"]
+def compute_spatial_relations(thresholds, region, spatial_relations, nodes = None):
+    objects = region["objects"] # list of dicts
+    region_bbox = region["region_bbox"]
+    # relations = [
+    #     # "between", 
+    #     # "in", 
+    #     #"on",
+    #     # "beside", 
+    #     "above", 
+    #     "below", 
+    #     "near"]
+    # between_iom = thresholds["between_iom"]
+    # overlap_thres = thresholds["overlap_thres"]
+    # symmetry_thres = thresholds["symmetry_thres"]
+    # distance_thres = thresholds["distance_thres"]
+    # anchor_size_thres = thresholds["anchor_size_thres"]
+    # in_thres = thresholds["in_thres"]
+    vertical_iom = thresholds["vertical_iom"]
+    near_thres = thresholds["near_thres"]
+    on_thres = thresholds["on_thres"]
+    under_thres = thresholds["under_thres"]
 
-    for relation in relations:
-        region_struct["relationships"][relation] = {}
+    for relation in spatial_relations:
+        region["relationships"][relation] = {}
 
     for anchor_idx, anchor_obj in enumerate(objects):
         anchor_id = objects[anchor_idx]["object_id"]
@@ -412,8 +412,8 @@ def compute_spatial_relations(config, region_struct):
         #region_struct["relationships"]["between"].update({object_id:between_objs})
         #region_struct["relationships"]["in"].update({object_id:in_objs})
         #region_struct["relationships"]["on"].update({object_id:on_objs})
-        region_struct["relationships"]["above"][anchor_idx] = above_objs
-        region_struct["relationships"]["below"][anchor_idx]= below_objs
-        region_struct["relationships"]["near"][anchor_idx]  = near_objs
+        region["relationships"]["above"][anchor_idx] = above_objs
+        region["relationships"]["below"][anchor_idx]= below_objs
+        region["relationships"]["near"][anchor_idx]  = near_objs
     # print(between_time)
-    return relations
+    return spatial_relations

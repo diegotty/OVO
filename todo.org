@@ -17,6 +17,13 @@
 - [ ] make node fusion algorithm type beat
 - [ ] fix output extractor
 
+* to-check:
+  - [ ] will have to make FusionGraph class modular for real-time
+  - [ ] clearer threshold handling 4 fuse_graph
+  - [ ] affinity priority for head (add some kind of fuse_score to sort the heap)
+  - [ ] deep copy of points
+
+
 * actual things we are doing that we can talk about as our own contributions .....
 1. persistence-based node admission (k_min)
 2. [affinity graph]-based 3d segment fusion
@@ -29,3 +36,13 @@
   - some edges exceed the fusion threshold, and get put into a queue of will_fuse elements
   - after the fusion of two elements, we only re-calculate the fusion affinity with the neighboring nodes (of absorbed and suriviving)
   - we update those edges
+
+
+  - can_fuse and fuse_score represent two different things: can_fuse means that the pair passes the threshold for fusion. fuse_score is
+    used to sort fuse_candidates and perform the most probable correct fusion first, as to avoid bad fusion later down the line
+  - geometric mean for
+
+
+* real-time implementation
+  would have some issues to deal with:
+  1) can't implement persistence-based node admission (k_min), at least for the start. tbh i could do it after a good amount of time, maybe increasing the k_min as we go on with the scene and we see that it does not get fusedd.

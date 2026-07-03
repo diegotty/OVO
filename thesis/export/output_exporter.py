@@ -65,20 +65,21 @@ def extract(checkpoint, ovo_dir, output_dir):
             dest_dir = output_dir / relative_dest_dir
             dest_dir.mkdir(parents=True, exist_ok=True)
 
-            filenames = ["masked.png", "bbox.png"]
+            filenames = ["masked.png", "bbox.png", "descriptor.npy"]
             for filename in filenames:
                 source_file = source_dir / filename
                 if not source_file.exists():
                     raise FileNotFoundError("missing cached crop file")
                 else:
                     shutil.copy2( source_file, dest_dir / filename)
-            
+
             top_views.append({
                 "keyframe_id" : kf_id,
                 "source_frame_id" : int(source_frame_ids[kf_id]),
                 "mask_area" : mask_area,
                 "masked_crop_file" : (relative_dest_dir / "masked.png").as_posix(),
-                "bbox_crop_file" : (relative_dest_dir / "bbox.png").as_posix()
+                "bbox_crop_file" : (relative_dest_dir / "bbox.png").as_posix(),
+                "descriptor" : (relative_dest_dir / "descriptor.npy").as_posix()
             })
 
         segment_metadata = {

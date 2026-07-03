@@ -1,4 +1,5 @@
 import shutil
+import numpy as np
 from pathlib import Path
 from torchvision.utils import save_image
 class CropLogger:
@@ -15,10 +16,17 @@ class CropLogger:
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         print("woop woop! crop logger created")
 
-    def add_keyframe(self, kf_id, segment_ids, crops):
-        for segment_id, segment_crops in zip(segment_ids, crops):
+    def add_keyframe(self, kf_id, segment_ids, crops, embeds):
+        # it should work ...
+        assert len(segment_ids) == len(crops) == len(embeds), (
+            f"Shape mismatch: ids={len(segment_ids)}, "
+            f"crops={len(crops)}, embeds={len(embeds)}"
+        )
+        for segment_id, segment_crops, embed in zip(segment_ids, crops, embeds):
+            
             view_path = self.cache_dir / f"segment_{segment_id:05d}" / f"kf_{kf_id:05d}"
             view_path.mkdir(parents=True, exist_ok=True)
+            np.save(view_path / "descriptor.npy", embed.detch().cpu())
             save_image(segment_crops[:3].clamp(0, 1), view_path / "masked.png")
             save_image(segment_crops[3:].clamp(0, 1), view_path / "bbox.png")
 

@@ -62,9 +62,9 @@ def compute_aabb( segment_id: int, points: np.ndarray) -> dict[str, Any]:
         "volume": float(np.prod(size)),
         # "footprint_area": float(size[0] * size[1]),
         # "diagonal_length": float(np.linalg.norm(size)),
-        "nyu_id" : -1,
-        "nyu_label" : "unknown",
-        "raw_label" : "unknown"
+        # "nyu_id" : -1,
+        # "nyu_label" : "unknown",
+        # "raw_label" : "unknown"
     }
 
 
