@@ -90,7 +90,7 @@ def compute_spatial_relations(anchor, segment_store, spatial_relations, threshol
         for relation in spatial_relations
     }
 
-    for target in segment_store.segments(active_only=True, persistent_only=True):
+    for target in segment_store.segments(confirmed_only=True):
         if target.id == anchor.id:
             continue
         if relate_above(vertical_iom, on_thres, anchor, target) and 'above' in relations:

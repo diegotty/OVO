@@ -44,7 +44,7 @@ class FusionGraph:
         distance, proximity = graph_utils.geometric_affinity(
             node_a.geometry.center, 
             node_b.geometry.center, 
-            self.thresholds['distance_scale']
+            self.thresholds.get('distance_scale', 1)
         )
         if distance > self.thresholds['distance_threshold']:
             return None
@@ -65,10 +65,17 @@ class FusionGraph:
 
         proximity_score = np.clip((self.thresholds['distance_threshold'] - distance) / ( self.thresholds['distance_threshold']), 0.0, 1.0)
         semantic_score = np.clip((semantic_similarity - self.thresholds['semantic_threshold']) / (1.0 - self.thresholds['semantic_threshold']), 0.0, 1.0)
-        coverage_score = np.clip((max_coverage - self.thresholds['coverage_threshold']) / (1.0 - self.thresholds['coverage_threshold']), 0.0, 1.0)
+
+        # handling the 2 cases
+        required_coverage = self.thresholds['weak_coverage_threshold'] if semantic_similarity > self.thresholds['strong_semantic_threshold'] else self.thresholds['coverage_threshold']
+        coverage_score = np.clip((max_coverage - required_coverage) / (1.0 - required_coverage), 0.0, 1.0)
 
         # TODO, FIX: use good condition
-        can_fuse = (max_coverage > self.thresholds['coverage_threshold'])
+        can_fuse = (
+            max_coverage > self.thresholds['coverage_threshold']
+            or (semantic_similarity > self.thresholds['strong_semantic_threshold']
+                and max_coverage > self.thresholds['weak_coverage_threshold'])
+        )
         # geometric mean
         fuse_score = (semantic_score * proximity_score * coverage_score) ** (1/3)
         return {

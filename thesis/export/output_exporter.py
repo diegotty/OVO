@@ -11,7 +11,14 @@ def to_numpy(value):
         return value.detach().cpu().numpy()
     return np.asarray(value)
 
-def extract(checkpoint, ovo_dir, output_dir):
+def extract(input_dir,  output_dir):
+    checkpoint = input_dir / "ovo_map.ckpt"
+    if not checkpoint.is_file():
+        raise RuntimeError("give me a checkpoint file ....")
+    checkpoint = torch.load(checkpoint, map_location="cpu", weights_only=False)
+
+    if not isinstance(checkpoint, dict):
+        raise RuntimeError("wrong checkpoint format")
     map_params = checkpoint["map_params"]
     xyz = to_numpy(map_params["xyz"])
     obj_ids = to_numpy(map_params["obj_ids"].reshape(-1))
@@ -60,7 +67,7 @@ def extract(checkpoint, ovo_dir, output_dir):
             mask_area = int(mask_area)
             kf_id = int(kf_id)
            # copy crops from crop_cache 
-            source_dir = ovo_dir / "crop_cache" / f"segment_{segment_id:05d}" / f"kf_{kf_id:05d}"
+            source_dir = input_dir / "crop_cache" / f"segment_{segment_id:05d}" / f"kf_{kf_id:05d}"
             relative_dest_dir = Path("segments") / f"{segment_id:05d}" / "crops" / f"kf_{kf_id:05d}"
             dest_dir = output_dir / relative_dest_dir
             dest_dir.mkdir(parents=True, exist_ok=True)
@@ -108,26 +115,27 @@ def extract(checkpoint, ovo_dir, output_dir):
     }
     with open(output_dir / "scene.json", "w", encoding="utf-8") as file:
         json.dump(scene_metadata, file, indent=2)
+    return True
 
-def main():
-    parser = argparse.ArgumentParser()
-    # requires a path as an argument when executing the file
-    parser.add_argument("checkpoint", type=Path)
-    parser.add_argument("--output-dir", type=Path, required=True)
-    args = parser.parse_args()
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-
-    if not args.checkpoint.is_file():
-        raise RuntimeError("give me a checkpoint file ....")
-    checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-    if not isinstance(checkpoint, dict):
-        raise RuntimeError("wrong checkpoint format")
-
-    ovo_dir = args.checkpoint.parent
-    extract(checkpoint, ovo_dir=ovo_dir, output_dir=args.output_dir)
-    return
-
-if __name__ == "__main__":
-   main()
-
-
+# def main():
+#     parser = argparse.ArgumentParser()
+#     # requires a path as an argument when executing the file
+#     parser.add_argument("checkpoint", type=Path)
+#     parser.add_argument("--output-dir", type=Path, required=True)
+#     args = parser.parse_args()
+#     args.output_dir.mkdir(parents=True, exist_ok=True)
+# 
+#     if not args.checkpoint.is_file():
+#         raise RuntimeError("give me a checkpoint file ....")
+#     checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+#     if not isinstance(checkpoint, dict):
+#         raise RuntimeError("wrong checkpoint format")
+# 
+#     input_dir = args.checkpoint.parent
+#     extract(input_dir=input_dir, output_dir=args.output_dir)
+#     return
+# 
+# if __name__ == "__main__":
+#    main()
+# 
+# 

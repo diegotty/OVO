@@ -11,7 +11,7 @@ class SpatialGraph:
         self.graph = nx.MultiDiGraph()
         self.segment_store = segment_store
         self.spatial_relations = spatial_relations
-        for segment in segment_store.segments(active_only=True, persistent_only=True):
+        for segment in segment_store.segments(not_absorbed_only=True):
             self.graph.add_node(segment.id)
         self._init_edges()
 
@@ -20,7 +20,7 @@ class SpatialGraph:
         self.graph.add_edge(target, anchor, key=relation)
 
     def _init_edges(self):
-        for anchor in self.segment_store.segments(active_only=True, persistent_only=True):
+        for anchor in self.segment_store.segments(confirmed_only=True):
             # function accesses segment_store as read-only !!
             relations = relation_extractor.compute_spatial_relations(anchor, self.segment_store, self.spatial_relations, self.thresholds)
             for relation, targets in relations.items():
@@ -39,11 +39,11 @@ class SpatialGraph:
     def rebuild(self):
         self.graph.clear()
     
-        segments = [segment for segment in self.segment_store.segments(active_only=True, persistent_only=True)]
+        confirmed_segments = [segment for segment in self.segment_store.segments(confirmed_only=True)]
 
-        for segment in segments:
+        for segment in self.segment_store.segments(not_absorbed_only=True):
             self.graph.add_node(segment.id)
-        for anchor in segments:
+        for anchor in confirmed_segments:
             relations = relation_extractor.compute_spatial_relations(anchor, self.segment_store, self.spatial_relations, self.thresholds)
             for relation, targets in relations.items():
                 for target in targets:
@@ -63,6 +63,6 @@ class SpatialGraph:
 #                    self._add_edge(anchor.id, target.id, relation)
     
 
+    # can need a rebuild because of fusion OR persistence updates
     def update_graph(self, updates):
-        if updates['absorbed']:
-            self.rebuild()
+        self.rebuild()

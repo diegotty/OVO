@@ -3,6 +3,7 @@ from spatial_relations import geometry
 from typing import Protocol
 from collections.abc import Iterator
 import numpy as np
+from enum import Enum, auto
 
 # class SegmentLike(Protocol):
 #     id: int
@@ -12,6 +13,11 @@ import numpy as np
 #     keyframe_ids: set[int]
 #     version: int
 
+class SegmentState(Enum):
+    TENTATIVE = auto()
+    CONFIRMED = auto()
+    ABSORBED = auto()       
+
 @dataclass
 class Segment:
     id: int
@@ -20,13 +26,11 @@ class Segment:
     top_views: list[SegmentView]
     geometry : SegmentGeometry
     keyframe_ids: set[int]
-    # source_segment_ids: set[int] = field(default_factory=set)
-    active: bool = True # is in the graph or not (absorbed nodes have it = False)
     version: int = 1
-    persistent: bool = True
+    # we think of persitance as monotonic (as observations only increase)
+    state : SegmentState = SegmentState.TENTATIVE
 
-    def center(self):
-        
+
 @dataclass
 class SegmentGeometry:
     aabb_min: np.ndarray
@@ -66,7 +70,7 @@ class SegmentStore:
     def fuse(self, node_a_id : int, node_b_id : int, top_k_views : int):
         node_a = self._segments[node_a_id]
         node_b = self._segments[node_b_id]
-        node_b.active = False
+        node_b.state = SegmentState.ABSORBED
         # node_a["points"] = np.concatenate([node_a["points"], node_b["points"]], axis=0)
         node_a.points = np.concatenate((node_a.points, node_b.points), axis=0)
         node_a.geometry = geometry.compute_aabb(node_a.id, node_a.points)
@@ -88,10 +92,10 @@ class SegmentStore:
         node_a.descriptor = best_descriptor
         node_a.version += 1
 
-    def segments(self, active_only: bool = False, persistent_only: bool = False) -> Iterator[Segment]:
+    def segments(self, confirmed_only: bool = False, not_absorbed_only: bool = False) -> Iterator[Segment]:
         for segment in self._segments.values():
-            if active_only and not segment.active:
+            if confirmed_only and not segment.state == SegmentState.CONFIRMED:
                 continue
-            if persistent_only and not segment.persistent:
+            if not_absorbed_only and segment.state == SegmentState.ABSORBED:
                 continue
             yield segment

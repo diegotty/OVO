@@ -1,0 +1,12 @@
+ignored_classes:
+  - wall
+  - floor
+  - ceiling
+  - door
+  - window
+
+matching:
+  minimum_coverage: 0.50
+  minimum_margin: 0.10
+  bbox_tolerance: 0.03
+  max_points_per_segment: 5000
