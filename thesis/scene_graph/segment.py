@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from spatial_relations import geometry
+from thesis.scene_graph.spatial_relations.geometry import compute_aabb, SegmentGeometry
 from typing import Protocol
 from collections.abc import Iterator
 import numpy as np
@@ -18,31 +18,6 @@ class SegmentState(Enum):
     CONFIRMED = auto()
     ABSORBED = auto()       
 
-@dataclass
-class Segment:
-    id: int
-    points: np.ndarray
-    descriptor: np.ndarray
-    top_views: list[SegmentView]
-    geometry : SegmentGeometry
-    keyframe_ids: set[int]
-    version: int = 1
-    # we think of persitance as monotonic (as observations only increase)
-    state : SegmentState = SegmentState.TENTATIVE
-
-
-@dataclass
-class SegmentGeometry:
-    aabb_min: np.ndarray
-    aabb_max: np.ndarray
-
-    # mayb one day
-    obb_center: np.ndarray | None = None
-    obb_extent: np.ndarray | None = None
-    obb_rotation: np.ndarray | None = None
-
-    def center(self) -> np.ndarray:
-        return (np.asarray(self.aabb_min, dtype=np.float32) + np.asarray(self.aabb_max, dtype=np.float32)) * 0.5
 
 @dataclass
 class SegmentView:
@@ -56,6 +31,18 @@ def l1_medoid(descriptors):
     pairwise_distances = np.abs(descriptors[:, None, :] - descriptors[None, :, :]).sum(axis=2)
     best_idx = int(np.argmin(pairwise_distances.sum(axis=1)))
     return descriptors[best_idx].copy(), best_idx
+
+@dataclass
+class Segment:
+    id: int
+    points: np.ndarray
+    descriptor: np.ndarray
+    top_views: list[SegmentView]
+    geometry : SegmentGeometry
+    keyframe_ids: set[int]
+    version: int = 1
+    # we think of persitance as monotonic (as observations only increase)
+    state : SegmentState = SegmentState.TENTATIVE
 
 class SegmentStore:
     def __init__(self, segments : list[Segment]):
@@ -73,8 +60,7 @@ class SegmentStore:
         node_b.state = SegmentState.ABSORBED
         # node_a["points"] = np.concatenate([node_a["points"], node_b["points"]], axis=0)
         node_a.points = np.concatenate((node_a.points, node_b.points), axis=0)
-        node_a.geometry = geometry.compute_aabb(node_a.id, node_a.points)
-        geom = geometry.compute_aabb(node_a_id, node_a.points)
+        node_a.geometry = compute_aabb(node_a.id, node_a.points)
 
         merged_views = node_a.top_views + node_b.top_views
         if top_k_views > 0:

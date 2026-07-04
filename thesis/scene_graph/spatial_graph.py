@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 import graph_utils
 from typing import Any
-from spatial_relations import relation_extractor
+from thesis.scene_graph.spatial_relations import relation_extractor
 from itertools import combinations
 
 class SpatialGraph:

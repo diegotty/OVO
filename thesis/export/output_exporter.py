@@ -117,25 +117,25 @@ def extract(input_dir,  output_dir):
         json.dump(scene_metadata, file, indent=2)
     return True
 
-# def main():
-#     parser = argparse.ArgumentParser()
-#     # requires a path as an argument when executing the file
-#     parser.add_argument("checkpoint", type=Path)
-#     parser.add_argument("--output-dir", type=Path, required=True)
-#     args = parser.parse_args()
-#     args.output_dir.mkdir(parents=True, exist_ok=True)
-# 
-#     if not args.checkpoint.is_file():
-#         raise RuntimeError("give me a checkpoint file ....")
-#     checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-#     if not isinstance(checkpoint, dict):
-#         raise RuntimeError("wrong checkpoint format")
-# 
-#     input_dir = args.checkpoint.parent
-#     extract(input_dir=input_dir, output_dir=args.output_dir)
-#     return
-# 
-# if __name__ == "__main__":
-#    main()
-# 
-# 
+def main():
+    parser = argparse.ArgumentParser()
+    # requires a path as an argument when executing the file
+    parser.add_argument("checkpoint", type=Path)
+    parser.add_argument("--output_dir", type=Path, required=True)
+    args = parser.parse_args()
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+
+    if not args.checkpoint.is_file():
+        raise RuntimeError("give me a checkpoint file ....")
+    checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+    if not isinstance(checkpoint, dict):
+        raise RuntimeError("wrong checkpoint format")
+
+    input_dir = args.checkpoint.parent
+    extract(input_dir=input_dir, output_dir=args.output_dir)
+    return
+
+if __name__ == "__main__":
+   main()
+
+ 

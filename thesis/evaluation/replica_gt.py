@@ -4,8 +4,10 @@ from dataclasses import dataclass
 from pathlib import Path
 import numpy as np
 
-# reads the gt instances of objects and saves them in a JSON format
 # ai-made, human-proofed
+# reads the gt instances of objects and saves them in a JSON format
+
+IGNORED_CLASS_IDS = {-1, -2, 256}
 @dataclass
 class GTInstance:
     """
@@ -19,6 +21,7 @@ class GTInstance:
     instance_id: int
     class_id: int
     class_name: str
+    ignored: bool
 
     # Bounding-box information provided by Replica.
     local_center: np.ndarray
@@ -34,6 +37,7 @@ class GTInstance:
             "instance_id": self.instance_id,
             "class_id": self.class_id,
             "class_name": self.class_name,
+            "ignore": self.ignored,
             "local_center": self.local_center.tolist(),
             "sizes": self.sizes.tolist(),
             "translation": self.translation.tolist(),
@@ -164,11 +168,17 @@ def load_replica_instances(replica_root: Path, scene_name: str) -> list[GTInstan
         instance_id = int(object_info["id"])
         class_id = int(object_info["class_id"])
 
-        if class_id not in class_names:
+        if class_id in IGNORED_CLASS_IDS:
+            class_name = 'unknown'
+            ignored = True
+        elif class_id not in class_names:
             raise KeyError(
                 f"Object {instance_id} references unknown class ID "
                 f"{class_id}"
             )
+        else:
+            class_name = class_names[class_id]
+            ignored = False
 
         bbox = object_info["oriented_bbox"]
         local_box = bbox["abb"]
@@ -177,7 +187,8 @@ def load_replica_instances(replica_root: Path, scene_name: str) -> list[GTInstan
         instance = GTInstance(
             instance_id=instance_id,
             class_id=class_id,
-            class_name=class_names[class_id],
+            class_name=class_name,
+            ignored=ignored,
             local_center=read_vector(local_box["center"], expected_length=3, field_name=f"object {instance_id} center"),
             sizes=read_vector(local_box["sizes"], expected_length=3, field_name=f"object {instance_id} sizes"),
             translation=read_vector(orientation["translation"], expected_length=3, field_name=f"object {instance_id} translation"),
@@ -218,3 +229,30 @@ def save_replica_instances(instances: list[GTInstance], output_file: Path, scene
 
     with output_file.open("w", encoding="utf-8") as file:
         json.dump(output_data, file, indent=2)
+
+def load_prepared_instances(input_file: Path) -> list[GTInstance]:
+    """
+    load the simplified JSON produced by prepare_replica_gt.py
+    """
+    input_file = input_file.expanduser().resolve()
+
+    if not input_file.exists():
+        raise FileNotFoundError(f"Prepared Replica GT file does not exist: {input_file}")
+
+    with input_file.open("r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    instances = []
+    for object_info in data["instances"]:
+        instance = GTInstance(
+            instance_id=int(object_info["instance_id"]),
+            class_id=int(object_info["class_id"]),
+            class_name=str(object_info["class_name"]),
+            ignored=bool(object_info["ignore"]),
+            local_center=np.asarray(object_info["local_center"], dtype=np.float64),
+            sizes=np.asarray(object_info["sizes"], dtype=np.float64),
+            translation=np.asarray(object_info["translation"], dtype=np.float64),
+            rotation_xyzw=np.asarray(object_info["rotation_xyzw"], dtype=np.float64),
+        )
+        instances.append(instance)
+    return instances

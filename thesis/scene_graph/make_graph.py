@@ -1,8 +1,8 @@
 from pathlib import Path
-from .spatial_graph import SpatialGraph
-from .fusion_graph import FusionGraph
-from .segment import SegmentStore, SegmentState
-from .utils import load_utils
+from thesis.scene_graph.spatial_graph import SpatialGraph
+from thesis.scene_graph.fusion_graph import FusionGraph
+from thesis.scene_graph.segment import SegmentStore, SegmentState
+from thesis.scene_graph.utils import load_utils
 
 # OVO/thesis/scene_graph/
 SCRIPT_DIR = Path(__file__).resolve().parent

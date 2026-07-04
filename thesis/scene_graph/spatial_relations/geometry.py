@@ -1,8 +1,20 @@
+from dataclasses import dataclass, field
 from collections.abc import Iterable, Mapping
 from typing import Any
 import numpy as np
-from scene_graph.segment import SegmentGeometry
 
+@dataclass
+class SegmentGeometry:
+    aabb_min: np.ndarray
+    aabb_max: np.ndarray
+
+    # mayb one day
+    obb_center: np.ndarray | None = None
+    obb_extent: np.ndarray | None = None
+    obb_rotation: np.ndarray | None = None
+
+    def center(self) -> np.ndarray:
+        return (np.asarray(self.aabb_min, dtype=np.float32) + np.asarray(self.aabb_max, dtype=np.float32)) * 0.5
 
 def _validate_points(points: np.ndarray, segment_id) -> np.ndarray:
     points = np.asarray(points)

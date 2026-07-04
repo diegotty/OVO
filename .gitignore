@@ -1,10 +1,12 @@
 ovoslam/submodules/segment-anything-langsplat
 /thesis/scene_graph/scene_graph/
 /data/working/configs/slam/
-/outputs/
 /data/Replica/
 /data/output/
 /data/input/
+/data/evaluation/
+/exported/
+/stats/
 *.pt
 *.aux
 *.fdb_latexmk

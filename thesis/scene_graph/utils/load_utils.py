@@ -9,8 +9,8 @@ from dataclasses import dataclass
 from pathlib import Path
 import numpy as np
 import networkx as nx
-from scene_graph.segment import Segment, SegmentGeometry, SegmentView, SegmentStore
-from scene_graph.spatial_relations import geometry
+from thesis.scene_graph.segment import Segment, SegmentGeometry, SegmentView, SegmentStore
+from thesis.scene_graph.spatial_relations import geometry
 
 def load_config(path: str) -> Dict[str, Any]:
     """

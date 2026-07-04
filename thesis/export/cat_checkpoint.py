@@ -57,7 +57,7 @@ def main():
     parser = argparse.ArgumentParser()
     # requires a path as an argument when executing the file
     parser.add_argument("checkpoint", type=Path)
-    parser.add_argument("--max-depth", type=int)
+    parser.add_argument("--max-depth", type=int, required=True)
     # parser.add_argument("--max-items", type=int)
     args = parser.parse_args()
     if not args.checkpoint.is_file():

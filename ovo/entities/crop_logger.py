@@ -26,7 +26,7 @@ class CropLogger:
             
             view_path = self.cache_dir / f"segment_{segment_id:05d}" / f"kf_{kf_id:05d}"
             view_path.mkdir(parents=True, exist_ok=True)
-            np.save(view_path / "descriptor.npy", embed.detch().cpu())
+            np.save(view_path / "descriptor.npy", embed.detach().cpu())
             save_image(segment_crops[:3].clamp(0, 1), view_path / "masked.png")
             save_image(segment_crops[3:].clamp(0, 1), view_path / "bbox.png")
 
