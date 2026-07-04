@@ -2,39 +2,16 @@ input_path: "data/output/Replica/small_test_orb_exported/"
 output_folder: "data/output/small_test_orb_geometry/"
 
 # Minimum horizontal intersection-over-minimum required for above/below/on relations
-vertical_iom: 0.5
-
-# Distance threshold for the near relation
-near_thres: 0.01
-
-# minimum horizontal intersection-over-minimum required for the target to be considered between two anchors
-between_iom: 0.5
-# maximum overlap allowed when calculating between relations
-overlap_thres: 0.3
-# maximum difference between the target's distances from the two anchors when calculating between
-symmetry_thres: 0.5
-# maximum normalized distance allowed for between
-distance_thres: 1.0
-# relative size threshold used for the anchor in between relations.
-anchor_size_thres: 1.5
-# maximum vertical gap allowed between a target and its supporting anchor for the on relation
-on_thres: 0.01
-
-# vertical margin used to distinguish objects inside containers from objects resting on top of them
-in_thres: 0.1
-
-# vertical tolerance used for below/under relations
-under_thres: 0.01
-
-# maximum horizontal distance for hanging_on
-hanging_thres_h: 0.01
-
-# vertical threshold for hanging_on
-hanging_thres_v: 0.5
-
-# minimum separation used to determine whether closest/farthest rankings are sufficiently distinguishable
-ordered_thres: 0.2
-
+spatial_graph:
+  vertical_iom: 0.5
+  near_thres: 0.01
+  on_thres: 0.01
+  under_thres: 0.01
+  relations:
+    above: True
+    below: True
+    near: True
+  
 fusion:
   distance_scale: 
   distance_threshold:

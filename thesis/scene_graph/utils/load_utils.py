@@ -5,8 +5,12 @@ from pathlib import Path
 from pprint import pprint
 from typing import Any
 import numpy as np
+from dataclasses import dataclass
+from pathlib import Path
+import numpy as np
 import networkx as nx
-from scene_graph.segment import Segment, SegmentView, SegmentStore
+from scene_graph.segment import Segment, SegmentGeometry, SegmentView, SegmentStore
+from scene_graph.spatial_relations import geometry
 
 def load_config(path: str) -> Dict[str, Any]:
     """
@@ -40,16 +44,9 @@ def update_recursive(dict1: Dict[str,Any], dict2: Dict[str,Any]) -> None:
         else:
             dict1[k] = v
 
-from dataclasses import dataclass
-from pathlib import Path
-import numpy as np
-
-
-
-def load_segments(scene_dir, min_points=1):
+def load_segments(scene_dir, min_points=1) -> SegmentStore:
     scene_dir = Path(scene_dir).expanduser().resolve()
     scene_file = scene_dir / "scene.json"
-    
     with scene_file.open("r", encoding="utf-8") as file:
         scene_metadata = json.load(file)
 
@@ -67,38 +64,44 @@ def load_segments(scene_dir, min_points=1):
         segment_copy['views'] = []
         for view in segment.get('top_views', []):
             view_descriptor_file = scene_dir / view['descriptor']
-            view_descriptor = np.load(view_descriptor_file).astype(np.float32, copy=False)
-            view_obj = SegmentView(view['keyframe_id'], view_descriptor, view['mask_area'])
+            view_descriptor = np.load(view_descriptor_file).astype(np.float32, copy=False).reshape(-1)
+            view_obj = SegmentView(int(view['keyframe_id']), view_descriptor, float(view['mask_area']))
             segment_copy['views'].append(view_obj)
         metadata_by_id[segment["id"]] = segment_copy
 
     segments = []
     for segment_id in segment_ids:
+        segment_id = int(segment_id)
         if segment_id not in metadata_by_id:
             raise RuntimeError(f"segment {segment_id} pesent in segments_id.npy but not in scene.json")
         seg_metadata = metadata_by_id[segment_id]
         descriptor_row = int(seg_metadata["descriptor_row"])
+        if not 0 <= descriptor_row < len(descriptors):
+            raise RuntimeError(f"invalid descriptor row{descriptor_row} for segment {segment_id}")
         points_file = scene_dir / seg_metadata["points_file"]
         top_views = seg_metadata['views']
+        keyframe_ids=set(
+            int(kf_id)
+            for kf_id in seg_metadata['keyframe_ids']
+        )
+
+        # valid points
         points = np.load(points_file)
         finite_mask = np.isfinite(points).all(axis=1)
         points = points[finite_mask]
+        # if the segment doesn't have enough points it gets skipped
         if len(points) < min_points:
             continue
         descriptor = descriptors[descriptor_row].reshape(-1).copy()
-        segments.append({
-            "id" : segment_id,
-            "points" : points,
-            "points_file" : points_file,
-            "descriptor" : descriptor,
-            "descriptor_row" : descriptor_row,
-            'top_views' : top_views
-        })
+        segment_geometry_obj = geometry.compute_aabb(segment_id, points)
         segment_obj = Segment(
             id = segment_id,
             points = points,
             descriptor = descriptor,
-            top_views = top_views
+            top_views = top_views,
+            geometry = segment_geometry_obj,
+            keyframe_ids = keyframe_ids
+
         )
         segments.append(segment_obj)
-    return segments
+    return SegmentStore(segments)

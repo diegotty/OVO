@@ -31,30 +31,3 @@ def geometric_affinity(center_a, center_b, distance_scale):
     distance = float(np.linalg.norm(center_a - center_b))
     proximity = float(np.exp(-distance / distance_scale))
     return distance, proximity
-
-
-def add_segment_nodes(graph, region, segments):
-    segments_by_id = dict()
-    for segment in segments:
-        segments_by_id[segment['id']] = segment
-    # segments_by_id = {
-    #     int(segment["id"]): segment
-    #     for segment in segments
-    # }
-    for obj in region['objects']:
-        segment_id = obj['object_id']
-
-        segment = segments_by_id[segment_id]
-        graph.add_node(
-            segment_id,
-            descriptor = np.asarray(segment['descriptor']),
-            center = np.asarray(obj['center']).copy(),
-            top_views = segment['top_views'],
-
-            #TODO: doing deepcopy now, we'll see if its needed
-            point_cloud = segment['points'].copy(),
-            version = 1
-            # points_file = str(segment['points_file])
-            # could add bbox stuff, but should we ?
-        )
-# ---------------------
