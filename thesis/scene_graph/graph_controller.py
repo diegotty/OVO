@@ -14,7 +14,7 @@ class Controller:
     segment_store : SegmentStore
     config : dict
 
-    def __init__(self, export_dir, output_dir):
+    def __init__(self, export_dir):
         config_path = SCRIPT_DIR / "config.yaml"
         self.config = load_utils.load_config(config_path)
 

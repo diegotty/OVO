@@ -50,15 +50,15 @@ class FusionGraph:
             node_b.geometry.center(), 
             self.thresholds.get('distance_scale', 1)
         )
-        # if distance > self.thresholds['distance_threshold']:
-        #     return None
+        if distance > self.thresholds['distance_threshold']:
+            return None
 
         cosine, semantic_similarity = graph_utils.semantic_similarity(
             node_a.descriptor, 
             node_b.descriptor)
 
-        # if semantic_similarity < self.thresholds['semantic_threshold']:
-        #    return None
+        if semantic_similarity < self.thresholds['semantic_threshold']:
+           return None
     
         coverage_ab, coverage_ba = self.point_coverage(
             node_a.points, 
@@ -104,13 +104,13 @@ class FusionGraph:
         if affinity['fuse_score'] > 0.5:
             version_a = self.segment_store.get(node_a_id).version
             version_b = self.segment_store.get(node_b_id).version
-            # print(f'added to queue: ({node_a_id}, {node_b_id}) with fuse score {affinity["fuse_score"]}')
             heapq.heappush(
                 self.fuse_queue, 
                 (-affinity['fuse_score'],
                  node_a_id, version_a,
                  node_b_id, version_b)
             )
+            # print(f'added to queue: ({node_a_id}, {node_b_id}) with fuse score {affinity["fuse_score"]}')
 
     def _init_edges(self):
         node_ids = list(self.graph.nodes)

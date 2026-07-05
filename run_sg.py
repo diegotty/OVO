@@ -22,12 +22,13 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     print('--- export stage ---')
     print(f'scene dir: {input_dir}')
-    print(f'export_dir: {args.export_dir}')
+    print(f'output_dir: {output_dir}')
 
     # export_status = output_exporter.extract(input_dir=args.input_dir, output_dir=args.export_dir)
     # print(f'export result: {export_status!r}')
-    export_dir = SCRIPT_DIR / "exported" / args.scene_name
-    controller = Controller(output_dir, output_dir)
+    export_dir = SCRIPT_DIR / "exported" / args.scene
+    controller = Controller(export_dir)
+    print('loaded OVO segments')
     initial_active_count = len(list(controller.segment_store.segments(not_absorbed_only=True)))
     validator = Validation(
         flags={

@@ -133,43 +133,115 @@ class Validation:
                 f"  {node_a} <-> {node_b}: "
                 f"{data['fuse_score']:.4f}"
             )
-    def validate_fusion_updates(self, initial_active_count: int) -> None:
-        absorbed = set(self.fusion_updates.get("absorbed", set()))
-        survivors = set(self.fusion_updates.get("survivors", set()))
-    
-        active_ids = {
-            segment.id
-            for segment in self.segment_store.segments(not_absorbed_only=True)
-        }
-    
-        print("\n--- fusion results ---")
-        print(f"survivors modified: {len(survivors)}")
-        print(f"segments absorbed:  {len(absorbed)}")
-        print(f"survivor IDs:       {sorted(survivors)}")
-        print(f"absorbed IDs:       {sorted(absorbed)}")
-        print(
-            f"active segments:    "
-            f"{initial_active_count} -> {len(active_ids)}"
-        )
-    
-        assert absorbed.isdisjoint(active_ids), (
-            "Absorbed segments are still active"
-        )
-    
-        assert survivors <= active_ids, (
-            "Some survivors are no longer active"
-        )
-    
-        assert absorbed.isdisjoint(self.fusion_graph.graph.nodes), (
-            "Absorbed segments remain in FusionGraph"
-        )
-    
-        expected_count = initial_active_count - len(absorbed)
-        assert len(active_ids) == expected_count, (
-            f"Expected {expected_count} active segments, "
-            f"found {len(active_ids)}"
-        )
 
+    def validate_fusion_updates(self, final_clusters: dict[int, set[int]]) -> None:
+        """
+        validate the final result of FusionGraph.update_graph().
+        final_clusters has the form:
+        """
+        active_ids = {segment.id for segment in self.segment_store.segments(not_absorbed_only=True)}
+        graph_ids = set(self.fusion_graph.graph.nodes)
+        # Every dictionary key is a final surviving segment.
+        final_survivor_ids = set(final_clusters.keys())
+
+        # Check each source segment appears in exactly one cluster.
+        source_to_final = {}
+
+        for final_id, source_ids in final_clusters.items():
+            assert source_ids, (f"Final cluster {final_id} is empty")
+            assert final_id in source_ids, (f"Final survivor {final_id} does not contain itself among its source IDs")
+            for source_id in source_ids:
+                assert source_id not in source_to_final, (
+                    f"Source segment {source_id} appears in both "
+                    f"final cluster {source_to_final[source_id]} "
+                    f"and final cluster {final_id}"
+                )
+                source_to_final[source_id] = final_id
+        all_source_ids = set(source_to_final.keys())
+
+        # Source IDs that are no longer final survivors were absorbed.
+        absorbed_ids = (all_source_ids - final_survivor_ids)
+
+    # Only survivors containing at least one other source were
+    # actually modified by fusion.
+    modified_survivor_ids = {
+        final_id
+        for final_id, source_ids
+        in final_clusters.items()
+        if len(source_ids) > 1
+    }
+
+    print("\n--- fusion results ---")
+    print(
+        f"survivors modified: "
+        f"{len(modified_survivor_ids)}"
+    )
+    print(
+        f"segments absorbed:  "
+        f"{len(absorbed_ids)}"
+    )
+    print(
+        f"final clusters:      "
+        f"{len(final_survivor_ids)}"
+    )
+    print(
+        f"survivor IDs:        "
+        f"{sorted(modified_survivor_ids)}"
+    )
+    print(
+        f"absorbed IDs:        "
+        f"{sorted(absorbed_ids)}"
+    )
+    print(
+        f"active segments:     "
+        f"{self.initial_active_count} "
+        f"-> {len(active_ids)}"
+    )
+
+    # Every original segment must still be represented in one cluster.
+    assert len(all_source_ids) == self.initial_active_count, (
+        f"Expected {self.initial_active_count} original "
+        f"source segments, found {len(all_source_ids)} "
+        "inside final_clusters"
+    )
+
+    # The final-cluster keys must exactly equal active store segments.
+    assert final_survivor_ids == active_ids, (
+        "Final cluster IDs do not match active SegmentStore IDs.\n"
+        f"Missing from clusters: "
+        f"{sorted(active_ids - final_survivor_ids)}\n"
+        f"Not active in store: "
+        f"{sorted(final_survivor_ids - active_ids)}"
+    )
+
+    # The FusionGraph and SegmentStore must contain the same survivors.
+    assert graph_ids == active_ids, (
+        "FusionGraph nodes do not match active SegmentStore IDs.\n"
+        f"Only in store: {sorted(active_ids - graph_ids)}\n"
+        f"Only in graph: {sorted(graph_ids - active_ids)}"
+    )
+
+    assert absorbed_ids.isdisjoint(active_ids), (
+        "Absorbed segments are still active in SegmentStore"
+    )
+
+    assert absorbed_ids.isdisjoint(graph_ids), (
+        "Absorbed segments remain in FusionGraph"
+    )
+
+    assert modified_survivor_ids <= active_ids, (
+        "Some modified survivors are no longer active"
+    )
+
+    expected_active_count = (
+        self.initial_active_count
+        - len(absorbed_ids)
+    )
+
+    assert len(active_ids) == expected_active_count, (
+        f"Expected {expected_active_count} active segments, "
+        f"found {len(active_ids)}"
+    )
 
 
     def validate_spatial_graph(self, stage : str) -> None:
