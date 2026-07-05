@@ -6,6 +6,7 @@ ovoslam/submodules/segment-anything-langsplat
 /data/input/
 /data/evaluation/
 /exported/
+/outputs/
 /stats/
 *.pt
 *.aux

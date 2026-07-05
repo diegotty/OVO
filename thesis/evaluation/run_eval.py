@@ -19,6 +19,7 @@ def main():
 
     matches = replica_matching.match_segments_to_instances(segments=segments, instances=gt_instances)
     utils.print_match_summary(matches, config['ignored_classes'])
+    utils.print_gt_fragmentation_summary(matches, config['ignored_classes'])
 
     dest_dir = REPO_ROOT / "data/evaluation/replica/office0_segment_matches.csv"
     replica_matching.save_matches_csv(matches=matches, output_file=dest_dir)
