@@ -1,9 +1,8 @@
 ovoslam/submodules/segment-anything-langsplat
 /thesis/scene_graph/scene_graph/
 /data/working/configs/slam/
-/data/Replica/
 /data/output/
-/data/input/
+/data/input/Datasets/
 /data/evaluation/
 /exported/
 /outputs/
