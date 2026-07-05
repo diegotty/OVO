@@ -19,6 +19,10 @@ class FusionGraph:
         self.segment_store = segment_store
         for segment in segment_store.segments(not_absorbed_only=True):
             self.graph.add_node(segment.id)
+        self.cluster_members = {
+            segment.id : {segment.id}
+            for segment in segment_store.segments(not_absorbed_only=True)
+        }
         self._init_edges()
         
 
@@ -52,6 +56,7 @@ class FusionGraph:
         cosine, semantic_similarity = graph_utils.semantic_similarity(
             node_a.descriptor, 
             node_b.descriptor)
+
         # if semantic_similarity < self.thresholds['semantic_threshold']:
         #    return None
     
@@ -133,8 +138,9 @@ class FusionGraph:
                 continue
 
             edge = self.graph.edges[node_a_id, node_b_id]
+
+            #if not edge["can_fuse"]:
             if edge['fuse_score'] < 0.5:
-            #if not edge["can_fuse"] or edge['fuse_score'] < 0.5:
                 continue
 
             print(f'fusing {node_b_id} into {node_a_id}, with fuse_score={-neg_fuse_score}')
@@ -146,6 +152,10 @@ class FusionGraph:
     def _fuse_nodes(self, node_a_id, node_b_id):
         # TODO: for real-time implementation, add keyframes and update the heap of survivor
         self.segment_store.fuse(node_a_id, node_b_id, self.thresholds['top_k_views'])
+
+        self.cluster_members[node_a_id].update(self.cluster_members[node_b_id])
+        del self.cluster_members[node_b_id]
+
         neighbors_a = set(self.graph.neighbors(node_a_id))
         neighbors_a.discard(node_a_id)
         self.graph.remove_edges_from(list(self.graph.edges(node_a_id)))
@@ -164,19 +174,27 @@ class FusionGraph:
                 self._add_edge(node_a_id, neighbor_id, affinity)
 
     def update_graph(self):
-        map = dict()
-        parts = {
-            'absorbed' : set(),
-            'survivors' : set()
-        }
+        fusion_map = {}
         while self.fuse_queue:
             result = self.pop_fusion()
             if result is not None:
                 node_a_id, node_b_id = result
                 self._fuse_nodes(node_a_id, node_b_id)
-                # fused: survivor
-                parts['absorbed'].add(node_b_id)
-                parts['survivors'].discard(node_b_id)
-                parts['survivors'].add(node_a_id)
-                map[node_b_id] = node_a_id
-        return map, parts
+                fusion_map[node_b_id] = node_a_id
+        # create a copy so no damage can be done from outside to a local structure
+        final_clusters = {
+                final_segment_id : set(source_ids)
+                for final_segment_id, source_ids
+                in self.cluster_members.items()
+        }
+        graph_node_ids = set(self.graph.nodes)
+        cluster_ids = set(final_clusters)
+        
+        if graph_node_ids != cluster_ids:
+            raise RuntimeError(
+                "fusion graph nodes and final cluster IDs do not match.\n"
+                f"graph only: {sorted(graph_node_ids - cluster_ids)}\n"
+                f"clusters only: {sorted(cluster_ids - graph_node_ids)}"
+            )
+
+        return fusion_map, final_clusters

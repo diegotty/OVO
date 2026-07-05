@@ -19,5 +19,6 @@ ovoslam/submodules/segment-anything-langsplat
 *.ply
 *.pcd
 *.ipynb
+*.zip
 __pycache__
 

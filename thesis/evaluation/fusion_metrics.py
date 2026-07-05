@@ -31,15 +31,17 @@ def build_source_to_final_mapping(final_segments) -> dict[int, int]:
     """
     source_to_final = {}
     for final_segment_id, source_ids in final_segments.items():
-
-        if source_ids is []:
-            # A segment that was never fused still represents itself.
-            source_ids = {final_segment_id}
-
+        if not source_ids:
+            raise RuntimeError(
+                f'final segment {final_segment_id} has no source segment ids !'
+            )
+        if final_segment_id not in source_ids:
+            raise RuntimeError(
+                f'final segment {final_segment_id} should contain itself as source'
+            )
         for source_id in source_ids:
             if source_id in source_to_final:
                 previous_final_id = source_to_final[source_id]
-
                 raise RuntimeError(
                     f"Source segment {source_id} appears in "
                     f"both final segment {previous_final_id} "
@@ -61,7 +63,9 @@ def get_evaluable_matches(matches, source_to_final: dict[int, int]):
         if match.gt_class_name in STRUCTURAL_CLASSES:
             continue
         if match.segment_id not in source_to_final:
-            continue
+            raise RuntimeError(
+                f'{match.segment_id} is missing from nodes in fusion graph !'
+            )
         evaluable_matches.append(match)
 
     return evaluable_matches
@@ -73,7 +77,7 @@ def safe_divide(numerator: int, denominator: int) -> float:
     return numerator / denominator
 
 
-def evaluate_fusion(matches, final_segments) -> FusionMetrics:
+def evaluate_fusion(matches, final_clusters) -> FusionMetrics:
     """
     evaluate pairwise fusion decisions
     for every pair of initial OVO segments:
@@ -87,7 +91,7 @@ def evaluate_fusion(matches, final_segments) -> FusionMetrics:
 
     true_negative: different GT instances and still separated
     """
-    source_to_final = build_source_to_final_mapping(final_segments)
+    source_to_final = build_source_to_final_mapping(final_clusters)
     evaluable_matches = get_evaluable_matches(matches=matches, source_to_final=source_to_final)
 
     true_positives = 0

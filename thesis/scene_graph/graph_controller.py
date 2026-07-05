@@ -17,7 +17,7 @@ class Controller:
     def __init__(self, export_dir, output_dir):
         config_path = SCRIPT_DIR / "config.yaml"
         self.config = load_utils.load_config(config_path)
-    
+
         self.segment_store = load_utils.load_segments(export_dir, self.config['min_segment_points'])
         fusion_thresholds = self.config['fusion'].copy()
         fusion_thresholds['top_k_views'] = self.config['top_k_views']
