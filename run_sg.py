@@ -43,7 +43,7 @@ def main():
         initial_active_count=initial_active_count
     )
     validator.validate('initial')
-    matches = evaluation.calculate_matches(args.export_dir)
+    matches = evaluation.calculate_matches(args.scene)
 
     # initial_segments = {segment.id : [] for segment in controller.segment_store.segments(not_absorbed_only=True)}
     # initial_results = fusion_metrics.evaluate_fusion(matches, initial_segments)
