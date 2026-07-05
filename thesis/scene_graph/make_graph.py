@@ -33,8 +33,9 @@ class Controller:
 
     def update_persistency(self):
         for segment in self.segment_store.segments():
-            if len(segment.keyframe_ids) < self.config['persistence_threshold']:
-                segment.state = SegmentState.TENTATIVE
+            if segment.state is not SegmentState.ABSORBED:
+                if len(segment.keyframe_ids) < self.config['persistence_threshold']:
+                    segment.state = SegmentState.TENTATIVE
  
 
     def update_graphs(self):

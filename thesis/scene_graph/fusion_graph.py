@@ -1,7 +1,7 @@
 import networkx as nx
 import open3d as o3d
 import numpy as np
-from utils import graph_utils
+from thesis.scene_graph.utils import graph_utils
 from itertools import combinations
 import heapq
 
@@ -17,7 +17,7 @@ class FusionGraph:
         self.debug = debug
         self.graph = nx.Graph()
         self.segment_store = segment_store
-        for segment in segment_store:
+        for segment in segment_store.segments(not_absorbed_only=True):
             self.graph.add_node(segment.id)
         self._init_edges()
         
@@ -42,18 +42,18 @@ class FusionGraph:
         node_a = self.segment_store.get(node_a_id)
         node_b = self.segment_store.get(node_b_id)
         distance, proximity = graph_utils.geometric_affinity(
-            node_a.geometry.center, 
-            node_b.geometry.center, 
+            node_a.geometry.center(), 
+            node_b.geometry.center(), 
             self.thresholds.get('distance_scale', 1)
         )
-        if distance > self.thresholds['distance_threshold']:
-            return None
+        # if distance > self.thresholds['distance_threshold']:
+        #     return None
 
         cosine, semantic_similarity = graph_utils.semantic_similarity(
             node_a.descriptor, 
             node_b.descriptor)
-        if semantic_similarity < self.thresholds['semantic_threshold']:
-            return None
+        # if semantic_similarity < self.thresholds['semantic_threshold']:
+        #    return None
     
         coverage_ab, coverage_ba = self.point_coverage(
             node_a.points, 
@@ -87,7 +87,7 @@ class FusionGraph:
         }
     
     def _add_edge(self, node_a_id, node_b_id, affinity):
-        print(f'added edge: ({node_a_id},{node_b_id}, with fuse score:  {affinity['fuse_score']}')
+        # print(f'added edge: ({node_a_id},{node_b_id}, with fuse score:  {affinity["fuse_score"]}')
         self.graph.add_edge(node_a_id, node_b_id, 
             # centroid_distance = affinity['centroid_distance'],
             # semantic_affinity = affinity['semantic_affinity'],
@@ -95,10 +95,11 @@ class FusionGraph:
             fuse_score = affinity['fuse_score'],
             can_fuse = affinity['can_fuse']
         )
-        if affinity['can_fuse']:
+        #if affinity['can_fuse']:
+        if affinity['fuse_score'] > 0.5:
             version_a = self.segment_store.get(node_a_id).version
             version_b = self.segment_store.get(node_b_id).version
-            print(f'added to queue: ({node_a_id}, {node_b_id})')
+            # print(f'added to queue: ({node_a_id}, {node_b_id}) with fuse score {affinity["fuse_score"]}')
             heapq.heappush(
                 self.fuse_queue, 
                 (-affinity['fuse_score'],
@@ -119,7 +120,6 @@ class FusionGraph:
             (neg_fuse_score,
              node_a_id, q_version_a,
              node_b_id, q_version_b) = heapq.heappop(self.fuse_queue) 
-            print(f'popped. will fuse {node_b_id} into {node_a_id}, with fuse_score={-neg_fuse_score}')
 
             # nodes not in graph
             if node_a_id not in self.graph or node_b_id not in self.graph:
@@ -133,8 +133,11 @@ class FusionGraph:
                 continue
 
             edge = self.graph.edges[node_a_id, node_b_id]
-            if not edge["can_fuse"]:
+            if edge['fuse_score'] < 0.5:
+            #if not edge["can_fuse"] or edge['fuse_score'] < 0.5:
                 continue
+
+            print(f'fusing {node_b_id} into {node_a_id}, with fuse_score={-neg_fuse_score}')
             return node_a_id, node_b_id
         # no nodes to fuse
         return None
@@ -154,21 +157,26 @@ class FusionGraph:
         neighbors.discard(node_a_id)
         neighbors.discard(node_b_id)
 
+        # print(f'recalculating edges for node {node_a_id}')
         for neighbor_id in neighbors:
             affinity = self._compute_pair_fusion_affinity(node_a_id, neighbor_id)
             if affinity is not None:
                 self._add_edge(node_a_id, neighbor_id, affinity)
 
     def update_graph(self):
-        results = {
-                'absorbed' : set(),
-                'survivors' : set(),
+        map = dict()
+        parts = {
+            'absorbed' : set(),
+            'survivors' : set()
         }
         while self.fuse_queue:
             result = self.pop_fusion()
             if result is not None:
                 node_a_id, node_b_id = result
                 self._fuse_nodes(node_a_id, node_b_id)
-                results['survivors'].add(node_a_id)
-                results['absorbed'].add(node_b_id)
-        return results
+                # fused: survivor
+                parts['absorbed'].add(node_b_id)
+                parts['survivors'].discard(node_b_id)
+                parts['survivors'].add(node_a_id)
+                map[node_b_id] = node_a_id
+        return map, parts

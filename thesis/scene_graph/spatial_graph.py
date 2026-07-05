@@ -1,6 +1,5 @@
 import networkx as nx
 import numpy as np
-import graph_utils
 from typing import Any
 from thesis.scene_graph.spatial_relations import relation_extractor
 from itertools import combinations
@@ -20,12 +19,12 @@ class SpatialGraph:
         self.graph.add_edge(target, anchor, key=relation)
 
     def _init_edges(self):
-        for anchor in self.segment_store.segments(confirmed_only=True):
+        for anchor in self.segment_store.segments(not_absorbed_only=True):
             # function accesses segment_store as read-only !!
             relations = relation_extractor.compute_spatial_relations(anchor, self.segment_store, self.spatial_relations, self.thresholds)
             for relation, targets in relations.items():
                 for target in targets:
-                    self._add_edge(anchor.id, target.id, relation)
+                    self._add_edge(anchor.id, target, relation)
 
     def _add_spatial_edges(self, region, spatial_relations):
 
@@ -39,7 +38,7 @@ class SpatialGraph:
     def rebuild(self):
         self.graph.clear()
     
-        confirmed_segments = [segment for segment in self.segment_store.segments(confirmed_only=True)]
+        confirmed_segments = [segment for segment in self.segment_store.segments(not_absorbed_only=True)]
 
         for segment in self.segment_store.segments(not_absorbed_only=True):
             self.graph.add_node(segment.id)
@@ -47,7 +46,7 @@ class SpatialGraph:
             relations = relation_extractor.compute_spatial_relations(anchor, self.segment_store, self.spatial_relations, self.thresholds)
             for relation, targets in relations.items():
                 for target in targets:
-                    self._add_edge(anchor.id, target.id, relation)
+                    self._add_edge(anchor.id, target, relation)
 
 
 #    def update_graph(self, updates):

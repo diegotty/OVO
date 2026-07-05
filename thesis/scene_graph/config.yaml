@@ -14,9 +14,9 @@ fusion:
   semantic_threshold: 0.81
   coverage_threshold: 0.5
   point_distance_threshold: 0.1
-  strong_semantic_thresholds: 0.9
+  strong_semantic_threshold: 0.9
   weak_coverage_threshold: 0.2
 
-k_top_views: 10
+top_k_views: 10
 persistence_threshold: 7
 min_segment_points: 5

@@ -51,7 +51,7 @@ class SegmentStore:
             for segment in segments
         }
     def get(self, segment_id):
-        self._segments[segment_id]
+        return self._segments[segment_id]
 
 
     def fuse(self, node_a_id : int, node_b_id : int, top_k_views : int):

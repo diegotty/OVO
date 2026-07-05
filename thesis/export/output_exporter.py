@@ -76,7 +76,7 @@ def extract(input_dir,  output_dir):
             for filename in filenames:
                 source_file = source_dir / filename
                 if not source_file.exists():
-                    raise FileNotFoundError("missing cached crop file")
+                    raise FileNotFoundError(f"missing cached crop file: {source_file}")
                 else:
                     shutil.copy2( source_file, dest_dir / filename)
 

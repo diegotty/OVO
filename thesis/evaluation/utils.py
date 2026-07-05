@@ -1,4 +1,5 @@
 from collections import Counter, defaultdict
+from thesis.evaluation.fusion_metrics import FusionMetrics
 
 def is_evaluable_object_match(match, ignored_classes ) -> bool:
     return (match.status == "matched" and match.gt_class_name not in ignored_classes)
@@ -82,3 +83,27 @@ def print_gt_fragmentation_summary(matches, ignored_classes) -> None:
             )
     print(f"fragmented GT instances: {fragmented_instances}")
     print(f"positive fusion pairs: {positive_segment_pairs}")
+
+def print_fusion_metrics(metrics: FusionMetrics) -> None:
+    """
+    Print the result of the pairwise fusion evaluation.
+    """
+    print()
+    print("---- Fusion evaluation ----")
+
+    print(f"evaluable segments:   {metrics.evaluable_segments}")
+    print(f"unique GT instances:  {metrics.unique_gt_instances}")
+    print(f"evaluated pairs:       {metrics.evaluated_pairs}")
+
+    print()
+    print("Pair classification:")
+    print(f"  true positives:      {metrics.true_positives}")
+    print(f"  false positives:     {metrics.false_positives}")
+    print(f"  false negatives:     {metrics.false_negatives}")
+    print(f"  true negatives:      {metrics.true_negatives}")
+
+    print()
+    print("Fusion performance:")
+    print(f"  precision:           {metrics.precision:.3f}")
+    print(f"  recall:              {metrics.recall:.3f}")
+    print(f"  F1 score:            {metrics.f1:.3f}")

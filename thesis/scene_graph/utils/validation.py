@@ -61,8 +61,8 @@ def validate_segment_store(segment_store, stage: str) -> None:
         )
 
         assert np.all(
-            segment.geometry.bbox_min
-            <= segment.geometry.bbox_max
+            segment.geometry.aabb_min
+            <= segment.geometry.aabb_min
         ), f"Invalid AABB for segment {segment.id}"
 
         assert np.all(

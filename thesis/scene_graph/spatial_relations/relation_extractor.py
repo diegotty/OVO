@@ -6,10 +6,10 @@ def calculate_iom_poly(obj1, obj2) -> float:
     Calculate intersection over minimum area between the XY projections
     of two axis-aligned 3D bounding boxes.
     """
-    min1 = np.asarray(obj1.geometry.bbox_min, dtype=np.float32)
-    max1 = np.asarray(obj1.geometry.bbox_max, dtype=np.float32)
-    min2 = np.asarray(obj2.geometry.bbox_min, dtype=np.float32)
-    max2 = np.asarray(obj2.geometry.bbox_max, dtype=np.float32)
+    min1 = np.asarray(obj1.geometry.aabb_min, dtype=np.float32)
+    max1 = np.asarray(obj1.geometry.aabb_min, dtype=np.float32)
+    min2 = np.asarray(obj2.geometry.aabb_min, dtype=np.float32)
+    max2 = np.asarray(obj2.geometry.aabb_min, dtype=np.float32)
 
     bbox1 = np.asarray(
         [
@@ -43,18 +43,18 @@ def calculate_iom_poly(obj1, obj2) -> float:
 
 
 def relate_above(vertical_iom, on_thres, anchor, target):
-    max_z1 = anchor.geometry.bbox_max[2]
-    min_z2 = target.geometry.bbox_min[2]
+    max_z1 = anchor.geometry.aabb_max[2]
+    min_z2 = target.geometry.aabb_min[2]
     iom = calculate_iom_poly(anchor, target)
 
     return max_z1 + on_thres <= min_z2 and iom > vertical_iom
 
 def relate_below(vertical_iom,under_thres, anchor, target):
-    max_z_tgt = target.geometry.bbox_max[2]
-    min_z_tgt = target.geometry.bbox_min[2]
+    max_z_tgt = target.geometry.aabb_max[2]
+    min_z_tgt = target.geometry.aabb_min[2]
 
-    max_z_anc = anchor.geometry.bbox_max[2]
-    min_z_anc = anchor.geometry.bbox_min[2]
+    max_z_anc = anchor.geometry.aabb_max[2]
+    min_z_anc = anchor.geometry.aabb_min[2]
     iom = calculate_iom_poly(anchor, target)
 
     return max_z_tgt <= min_z_anc and iom > vertical_iom or min_z_tgt <= min_z_anc + under_thres and max_z_tgt <= max_z_anc and iom > vertical_iom
@@ -68,10 +68,10 @@ def get_aabb_distance(segment_a, segment_b) -> float:
     - zero if the boxes touch or intersect;
     - positive if they are separated.
     """
-    min_a = np.asarray(segment_a.geometry.bbox_min, dtype=np.float32)
-    max_a = np.asarray(segment_a.geometry.bbox_max, dtype=np.float32)
-    min_b = np.asarray(segment_b.geometry.bbox_min, dtype=np.float32)
-    max_b = np.asarray(segment_b.geometry.bbox_max, dtype=np.float32)
+    min_a = np.asarray(segment_a.geometry.aabb_min, dtype=np.float32)
+    max_a = np.asarray(segment_a.geometry.aabb_max, dtype=np.float32)
+    min_b = np.asarray(segment_b.geometry.aabb_min, dtype=np.float32)
+    max_b = np.asarray(segment_b.geometry.aabb_max, dtype=np.float32)
     axis_gaps = np.maximum(np.maximum(min_b - max_a,min_a - max_b), 0.0)
     return float(np.linalg.norm(axis_gaps))
 
@@ -90,7 +90,7 @@ def compute_spatial_relations(anchor, segment_store, spatial_relations, threshol
         for relation in spatial_relations
     }
 
-    for target in segment_store.segments(confirmed_only=True):
+    for target in segment_store.segments(not_absorbed_only=True):
         if target.id == anchor.id:
             continue
         if relate_above(vertical_iom, on_thres, anchor, target) and 'above' in relations:
