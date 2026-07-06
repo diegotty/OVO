@@ -12,19 +12,20 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 def main():
     parser = argparse.ArgumentParser()
     # dir should be ovo/data/input/Replica/<scene_name>
-    parser.add_argument("--scene", type=Path, required=True)
-    parser.add_argument("--test_name", type=Path, required=True)
+    parser.add_argument("--scene", type=str, required=True)
+    parser.add_argument("--test_name", type=str, required=True)
 
     args = parser.parse_args()
+    print(type(args.scene))
     # should be ovo/evaluation/<run_name>
-    input_dir = SCRIPT_DIR / "data/input/Replica/" / args.scene
+    input_dir = SCRIPT_DIR / "data/output/Replica/" / args.scene
     output_dir = SCRIPT_DIR / "evaluation" / args.test_name / args.scene
     output_dir.mkdir(parents=True, exist_ok=True)
     print('--- export stage ---')
     print(f'scene dir: {input_dir}')
     print(f'output_dir: {output_dir}')
 
-    # export_status = output_exporter.extract(input_dir=args.input_dir, output_dir=args.export_dir)
+    output_exporter.extract(input_dir)
     # print(f'export result: {export_status!r}')
     export_dir = SCRIPT_DIR / "exported" / args.scene
     controller = Controller(export_dir)
@@ -34,7 +35,6 @@ def main():
         flags={
             'segment_store' : True,
             'fusion_graph' : True,
-            'fusion_updates' : True,
             'spatial_graph' : True
         },
         segment_store=controller.segment_store,
@@ -53,9 +53,11 @@ def main():
     fusion_map, final_clusters = controller.update_graphs()
     validator.validate('after fusion')
 
+    validator.validate_fusion_updates(final_clusters)
+
     results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
     print_fusion_metrics(results)
-    evaluation.calculate_matches(list(controller.segment_store.segments(not_absorbed_only=True)))
+    evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(not_absorbed_only=True)))
     
 if __name__ == "__main__":
     main()

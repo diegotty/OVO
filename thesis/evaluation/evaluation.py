@@ -16,7 +16,7 @@ def calculate_matches(scene, final_segments = None):
     config = load_utils.load_config(config_path)
 
     # root of output_export.py
-    export_dir = REPO_ROOT / "export" / scene
+    export_dir = REPO_ROOT / "exported" / scene
     #func doenst save anything ... just lods
     segment_store = load_utils.load_segments(export_dir, config.get('min_segment_points',0))
     scene_name = scene + "_instances.json"

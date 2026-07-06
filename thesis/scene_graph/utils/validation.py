@@ -22,7 +22,6 @@ class Validation:
     fusion_graph : FusionGraph
     spatial_graph : SpatialGraph
     initial_active_count : int
-    fusion_updates: dict[Any, Any] = field(default_factory=dict)
 
 
     def validate_segment_store(self, stage: str) -> None:
@@ -262,7 +261,5 @@ class Validation:
             self.validate_segment_store(phase)
         if self.flags['fusion_graph']:
             self.validate_fusion_graph(phase)
-        if self.flags['fusion_updates']:
-            self.validate_fusion_updates(self.initial_active_count)
         if self.flags['spatial_graph']:
             self.validate_spatial_graph(phase)

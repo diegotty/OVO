@@ -5,16 +5,21 @@ import json
 import numpy as np
 from pathlib import Path
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent.parent
 
 def to_numpy(value):
     if isinstance(value, torch.Tensor):
         return value.detach().cpu().numpy()
     return np.asarray(value)
 
-def extract(input_dir,  output_dir):
+def extract(input_dir):
+    scene_split = str(input_dir).rsplit('/', 1)
+    scene = scene_split[-1]
+    output_dir = REPO_ROOT / "exported" / scene
     checkpoint = input_dir / "ovo_map.ckpt"
     if not checkpoint.is_file():
-        raise RuntimeError("give me a checkpoint file ....")
+        raise RuntimeError(f"give me a checkpoint file ....{checkpoint}")
     checkpoint = torch.load(checkpoint, map_location="cpu", weights_only=False)
 
     if not isinstance(checkpoint, dict):
@@ -27,7 +32,7 @@ def extract(input_dir,  output_dir):
     source_frame_ids = to_numpy(ovo_params["frame_id"]).reshape(-1)
 
     segments_dir = output_dir / "segments"
-    segments_dir.mkdir(exist_ok=True)
+    segments_dir.mkdir(exist_ok=True, parents=True)
     descriptors = []
     
     # extratcted segments' ids. the order will match with descriptors.npy

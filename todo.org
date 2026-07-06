@@ -1,3 +1,16 @@
+* todo (06/07/2026)
+  - [ ] add exporting to evaluation pipeline
+  - [ ] fix relations extractor
+  - [ ] persistence-based filtering
+    - [ ] change segment() stuff
+    - [ ] 
+  - [ ] stats
+    - [ ] stats on instance recognization 
+    - [ ] fusion success stats
+    - [ ] persistance-filtering improvement
+    - [ ] 
+
+* generic to-do
 - [x] make affinity graph
 - [x] make relations graph
 
@@ -5,17 +18,15 @@
   - [x] get some stats on keyframe appearances
   - [ ] choose k_min + points_min
 
-- [ ] 3d segment fusion ? 
+- [x] 3d segment fusion ? 
   - [x] get some stats on how many times we run it
-  - [ ] run it more times ?
 
 - [ ] improve relations extractor
-  - [ ] semantic gating for in/on/
 - [x] understand when OVO runs 3D segment merging
-- [ ] make eval for fragmentation
-  - [ ] validate crop pipeline (is the # of final segments the same as the # of crop-saved segments)
-- [ ] make node fusion algorithm type beat
-- [ ] fix output extractor
+- [x] make eval for fragmentation
+  - [x] validate crop pipeline (is the # of final segments the same as the # of crop-saved segments)
+- [x] make node fusion algorithm type beat
+- [x] fix output extractor
 
 * to-check:
   - [ ] will have to make FusionGraph class modular for real-time
