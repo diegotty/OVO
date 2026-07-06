@@ -75,9 +75,16 @@ def extract(input_dir):
             source_dir = input_dir / "crop_cache" / f"segment_{segment_id:05d}" / f"kf_{kf_id:05d}"
             relative_dest_dir = Path("segments") / f"{segment_id:05d}" / "crops" / f"kf_{kf_id:05d}"
             dest_dir = output_dir / relative_dest_dir
-            dest_dir.mkdir(parents=True, exist_ok=True)
 
             filenames = ["masked.png", "bbox.png", "descriptor.npy"]
+
+            # deleted keyframes .... dinkleberg .....
+            missing_files = [filename for filename in filenames if not (source_dir / filename).is_file()]
+            if missing_files:
+                raw_source_frame_id=source_frame_ids[kf_id] if 0 <= kf_id < len(source_frame_ids) else None
+                continue
+
+            dest_dir.mkdir(parents=True, exist_ok=True)
             for filename in filenames:
                 source_file = source_dir / filename
                 if not source_file.exists():
