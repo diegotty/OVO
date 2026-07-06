@@ -85,9 +85,12 @@ def extract(input_dir):
                 else:
                     shutil.copy2( source_file, dest_dir / filename)
 
+            raw_source_frame_id = source_frame_ids[kf_id]
+            source_frame_deleted = (str(raw_source_frame_id) == "Deleted")
+            source_frame_id = None if source_frame_deleted else int(raw_source_frame_id)
             top_views.append({
                 "keyframe_id" : kf_id,
-                "source_frame_id" : int(source_frame_ids[kf_id]),
+                "source_frame_id" : source_frame_id,
                 "mask_area" : mask_area,
                 "masked_crop_file" : (relative_dest_dir / "masked.png").as_posix(),
                 "bbox_crop_file" : (relative_dest_dir / "bbox.png").as_posix(),
