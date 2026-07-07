@@ -7,9 +7,9 @@ def calculate_iom_poly(obj1, obj2) -> float:
     of two axis-aligned 3D bounding boxes.
     """
     min1 = np.asarray(obj1.geometry.aabb_min, dtype=np.float32)
-    max1 = np.asarray(obj1.geometry.aabb_min, dtype=np.float32)
+    max1 = np.asarray(obj1.geometry.aabb_max, dtype=np.float32)
     min2 = np.asarray(obj2.geometry.aabb_min, dtype=np.float32)
-    max2 = np.asarray(obj2.geometry.aabb_min, dtype=np.float32)
+    max2 = np.asarray(obj2.geometry.aabb_max, dtype=np.float32)
 
     bbox1 = np.asarray(
         [
@@ -90,7 +90,7 @@ def compute_spatial_relations(anchor, segment_store, spatial_relations, threshol
         for relation in spatial_relations
     }
 
-    for target in segment_store.segments(not_absorbed_only=True):
+    for target in segment_store.segments(confirmed_only=True):
         if target.id == anchor.id:
             continue
         if relate_above(vertical_iom, on_thres, anchor, target) and 'above' in relations:

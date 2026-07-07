@@ -42,7 +42,7 @@ class Segment:
     keyframe_ids: set[int]
     version: int = 1
     # we think of persitance as monotonic (as observations only increase)
-    state : SegmentState = SegmentState.TENTATIVE
+    state : SegmentState = SegmentState.CONFIRMED
 
 class SegmentStore:
     def __init__(self, segments : list[Segment]):

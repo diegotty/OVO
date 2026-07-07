@@ -35,8 +35,11 @@ def calculate_matches(scene, final_segments = None):
 
     return matches
 
-def save_matches(scene, matches):
-    csv_name = scene + "_segment_matches.csv"
+def save_matches(scene, matches, name=None):
+    if name is not None:
+        csv_name = scene + "_" + name +  "_segment_matches.csv"
+    else:
+        csv_name = scene + "_segment_matches.csv"
     dest_dir = REPO_ROOT / "data/evaluation/replica" / csv_name
     replica_matching.save_matches_csv(matches=matches, output_file=dest_dir)
     print(f'saved matches to {dest_dir} !')

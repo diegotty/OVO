@@ -58,6 +58,7 @@ def main():
     results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
     print_fusion_metrics(results)
     evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(not_absorbed_only=True)))
+    evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(confirmed_only=True)))
     
 if __name__ == "__main__":
     main()

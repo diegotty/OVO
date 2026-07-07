@@ -31,7 +31,7 @@ class Controller:
     
         self.spatial_graph = SpatialGraph(self.segment_store, spatial_relations, spatial_thresholds)
 
-    def update_persistency(self):
+    def persistence_filter(self):
         for segment in self.segment_store.segments():
             if segment.state is not SegmentState.ABSORBED:
                 if len(segment.keyframe_ids) < self.config['persistence_threshold']:
@@ -40,6 +40,6 @@ class Controller:
 
     def update_graphs(self):
         updates = self.fusion_graph.update_graph()
-        self.update_persistency()
+        self.persistence_filter()
         self.spatial_graph.update_graph(updates)
         return updates

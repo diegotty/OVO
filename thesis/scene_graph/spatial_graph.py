@@ -19,7 +19,7 @@ class SpatialGraph:
         self.graph.add_edge(target, anchor, key=relation)
 
     def _init_edges(self):
-        for anchor in self.segment_store.segments(not_absorbed_only=True):
+        for anchor in self.segment_store.segments(confirmed_only=True):
             # function accesses segment_store as read-only !!
             relations = relation_extractor.compute_spatial_relations(anchor, self.segment_store, self.spatial_relations, self.thresholds)
             for relation, targets in relations.items():
@@ -38,7 +38,7 @@ class SpatialGraph:
     def rebuild(self):
         self.graph.clear()
     
-        confirmed_segments = [segment for segment in self.segment_store.segments(not_absorbed_only=True)]
+        confirmed_segments = [segment for segment in self.segment_store.segments(confirmed_only=True)]
 
         for segment in self.segment_store.segments(not_absorbed_only=True):
             self.graph.add_node(segment.id)
