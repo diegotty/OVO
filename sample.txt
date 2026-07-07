@@ -1,0 +1,123 @@
+--- export stage ---
+scene dir: /mnt/e/Progetti/Python/martire_slam/ovo/data/output/Replica/room0
+output_dir: /mnt/e/Progetti/Python/martire_slam/ovo/evaluation/pls_work/room0
+loaded OVO segments
+--- STARTING STAGE ---
+
+--- segment_store: initial ---
+total segments:  116
+active segments: 116
+confirmed segments: 116
+inactive:        0
+descriptor shapes: {(1152,)}
+points per segment: min=113, mean=9592.1, max=185875
+active IDs sample: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+number of segments: 116
+---- GT fragmentation summary ----
+reliable matched segments: 28
+unique GT instances: 16
+GT=2    class=cabinet              segments=1   IDs=[8]
+GT=6    class=lamp                 segments=2   IDs=[5, 18]
+GT=9    class=sofa                 segments=3   IDs=[58, 63, 129]
+GT=10   class=table                segments=3   IDs=[127, 138, 139]
+GT=11   class=table                segments=2   IDs=[62, 102]
+GT=35   class=indoor-plant         segments=1   IDs=[103]
+GT=39   class=stool                segments=1   IDs=[2]
+GT=41   class=stool                segments=1   IDs=[1]
+GT=43   class=pot                  segments=1   IDs=[75]
+GT=45   class=vase                 segments=1   IDs=[3]
+GT=55   class=plant-stand          segments=1   IDs=[128]
+GT=73   class=chair                segments=2   IDs=[73, 77]
+GT=74   class=chair                segments=1   IDs=[98]
+GT=75   class=basket               segments=1   IDs=[120]
+GT=77   class=sofa                 segments=6   IDs=[49, 95, 100, 106, 113, 119]
+GT=87   class=lamp                 segments=1   IDs=[71]
+fragmented GT instances: 6
+positive fusion pairs: 24
+--- FUSION STAGE ---
+
+--- segment_store: after fusion ---
+total segments:  116
+active segments: 84
+confirmed segments: 84
+inactive:        32
+descriptor shapes: {(1152,)}
+points per segment: min=176, mean=13246.3, max=185875
+active IDs sample: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+--- fusion results ---
+survivors modified: {len(modified_survivor_ids)}
+segments absorbed:  32
+final clusters:      84
+survivor IDs:        [7, 15, 33, 34, 40, 42, 47, 49, 56, 57, 58, 62, 67, 73, 79, 80, 87, 98, 100, 114, 127]
+absorbed IDs:        [20, 21, 26, 38, 39, 44, 45, 46, 48, 61, 63, 77, 81, 82, 86, 91, 94, 95, 96, 102, 104, 110, 113, 118, 124, 125, 129, 131, 133, 138, 139, 143]
+active segments:     116 -> 84
+
+---- Fusion evaluation ----
+evaluable segments:   28
+unique GT instances:  16
+evaluated pairs:       378
+
+Pair classification:
+  true positives:      11
+  false positives:     0
+  false negatives:     13
+  true negatives:      354
+
+Fusion performance:
+  precision:           1.000
+  recall:              0.458
+  F1 score:            0.629
+number of segments: 84
+---- GT fragmentation summary ----
+reliable matched segments: 20
+unique GT instances: 16
+GT=2    class=cabinet              segments=1   IDs=[8]
+GT=6    class=lamp                 segments=2   IDs=[5, 18]
+GT=9    class=sofa                 segments=1   IDs=[58]
+GT=10   class=table                segments=1   IDs=[127]
+GT=11   class=table                segments=1   IDs=[62]
+GT=35   class=indoor-plant         segments=1   IDs=[103]
+GT=39   class=stool                segments=1   IDs=[2]
+GT=41   class=stool                segments=1   IDs=[1]
+GT=43   class=pot                  segments=1   IDs=[75]
+GT=45   class=vase                 segments=1   IDs=[3]
+GT=55   class=plant-stand          segments=1   IDs=[128]
+GT=73   class=chair                segments=1   IDs=[73]
+GT=74   class=chair                segments=1   IDs=[98]
+GT=75   class=basket               segments=1   IDs=[120]
+GT=77   class=sofa                 segments=4   IDs=[49, 100, 106, 119]
+GT=87   class=lamp                 segments=1   IDs=[71]
+fragmented GT instances: 2
+positive fusion pairs: 7
+--- PERSISTENCE-BASED FILTERING ---
+
+--- segment_store: after filtering ---
+total segments:  116
+active segments: 84
+confirmed segments: 69
+inactive:        32
+descriptor shapes: {(1152,)}
+points per segment: min=176, mean=13246.3, max=185875
+active IDs sample: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+number of segments: 69
+---- GT fragmentation summary ----
+reliable matched segments: 19
+unique GT instances: 15
+GT=2    class=cabinet              segments=1   IDs=[8]
+GT=6    class=lamp                 segments=2   IDs=[5, 18]
+GT=9    class=sofa                 segments=1   IDs=[58]
+GT=11   class=table                segments=1   IDs=[62]
+GT=35   class=indoor-plant         segments=1   IDs=[103]
+GT=39   class=stool                segments=1   IDs=[2]
+GT=41   class=stool                segments=1   IDs=[1]
+GT=43   class=pot                  segments=1   IDs=[75]
+GT=45   class=vase                 segments=1   IDs=[3]
+GT=55   class=plant-stand          segments=1   IDs=[128]
+GT=73   class=chair                segments=1   IDs=[73]
+GT=74   class=chair                segments=1   IDs=[98]
+GT=75   class=basket               segments=1   IDs=[120]
+GT=77   class=sofa                 segments=4   IDs=[49, 100, 106, 119]
+GT=87   class=lamp                 segments=1   IDs=[71]
+fragmented GT instances: 2
+positive fusion pairs: 7

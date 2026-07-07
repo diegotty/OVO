@@ -16,7 +16,6 @@ def main():
     parser.add_argument("--test_name", type=str, required=True)
 
     args = parser.parse_args()
-    print(type(args.scene))
     # should be ovo/evaluation/<run_name>
     input_dir = SCRIPT_DIR / "data/output/Replica/" / args.scene
     output_dir = SCRIPT_DIR / "evaluation" / args.test_name / args.scene
@@ -34,14 +33,16 @@ def main():
     validator = Validation(
         flags={
             'segment_store' : True,
-            'fusion_graph' : True,
-            'spatial_graph' : True
+            'fusion_graph' : False,
+            'spatial_graph' : False
         },
         segment_store=controller.segment_store,
         fusion_graph=controller.fusion_graph,
         spatial_graph=controller.spatial_graph,
         initial_active_count=initial_active_count
     )
+
+    print('--- STARTING STAGE ---')
     validator.validate('initial')
     matches = evaluation.calculate_matches(args.scene)
 
@@ -49,15 +50,18 @@ def main():
     # initial_results = fusion_metrics.evaluate_fusion(matches, initial_segments)
     # print_fusion_metrics(initial_results)
     
-    print('--- fusing !!! ---')
-    fusion_map, final_clusters = controller.update_graphs()
+    print('--- FUSION STAGE ---')
+    fusion_map, final_clusters = controller.fusion_graph.update_graph()
     validator.validate('after fusion')
-
     validator.validate_fusion_updates(final_clusters)
-
     results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
     print_fusion_metrics(results)
     evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(not_absorbed_only=True)))
+
+
+    print(f'--- PERSISTENCE-BASED FILTERING ---')
+    controller.persistence_filter()
+    validator.validate('after filtering')
     evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(confirmed_only=True)))
     
 if __name__ == "__main__":

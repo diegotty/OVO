@@ -143,7 +143,7 @@ class FusionGraph:
             if edge['fuse_score'] < 0.5:
                 continue
 
-            print(f'fusing {node_b_id} into {node_a_id}, with fuse_score={-neg_fuse_score}')
+            # print(f'fusing {node_b_id} into {node_a_id}, with fuse_score={-neg_fuse_score}')
             return node_a_id, node_b_id
         # no nodes to fuse
         return None

@@ -212,7 +212,7 @@ class Validation:
         }
     
         graph_ids = set(graph.nodes)
-        print("\n--- spatial_graph: {stage} ---")
+        print(f"\n--- spatial_graph: {stage} ---")
         print(f"nodes: {graph.number_of_nodes()}")
         print(f"edges: {graph.number_of_edges()}")
     
@@ -259,7 +259,7 @@ class Validation:
     def validate(self, phase : str):
         if self.flags['segment_store']:
             self.validate_segment_store(phase)
-        if self.flags['fusion_graph']:
+        if self.flags['fusion_graph'] == True:
             self.validate_fusion_graph(phase)
-        if self.flags['spatial_graph']:
+        if self.flags['spatial_graph'] == True:
             self.validate_spatial_graph(phase)

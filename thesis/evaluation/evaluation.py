@@ -23,14 +23,14 @@ def calculate_matches(scene, final_segments = None):
     instances_dir = REPO_ROOT / "data/evaluation/replica" / scene_name
     gt_instances = replica_gt.load_prepared_instances(instances_dir)
     segments = list(segment_store.segments())
-    print(f'number of segments: {len(segments)}')
 
     # to do the same thing but with the AFTER-FUSION segments
     if final_segments is not None:
         segments = final_segments
+    print(f'number of segments: {len(segments)}')
 
     matches = replica_matching.match_segments_to_instances(segments=segments, instances=gt_instances)
-    utils.print_match_summary(matches, config['ignored_classes'])
+    # utils.print_match_summary(matches, config['ignored_classes'])
     utils.print_gt_fragmentation_summary(matches, config['ignored_classes'])
 
     return matches
