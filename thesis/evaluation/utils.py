@@ -1,6 +1,5 @@
 import csv
 from pathlib import Path
-from _typeshed import ProfileFunction
 from collections import Counter, defaultdict
 from thesis.evaluation.fusion_metrics import FusionMetrics
 
@@ -41,7 +40,7 @@ def print_matches(matches):
             f"status={match.status}"
         )
 
-def print_gt_fragmentation_summary(matches, ignored_classes) -> None:
+def print_gt_fragmentation_summary(matches, ignored_classes):
     """
     group reliably matched OVO segments by Replica GT instance
     This shows how many initial OVO segments represent each real object.
@@ -59,8 +58,8 @@ def print_gt_fragmentation_summary(matches, ignored_classes) -> None:
         class_by_gt_instance[gt_instance_id] = (match.gt_class_name)
 
     print("---- GT fragmentation summary ----")
-    reliable_object_matches = sum(len(ids) for ids in segments_by_gt_instance.values())]
-    unique_gt_instances = len(segments_by_gt_instance
+    reliable_object_matches = sum(len(ids) for ids in segments_by_gt_instance.values())
+    unique_gt_instances = len(segments_by_gt_instance)
     print(f"reliable matched segments: {reliable_object_matches}")
     print(f"unique GT instances: {unique_gt_instances}")
 
@@ -91,7 +90,7 @@ def print_gt_fragmentation_summary(matches, ignored_classes) -> None:
         'reliable_object_matches' : reliable_object_matches,
         'unique_gt_instances' : unique_gt_instances,
         'fragmented_gt_instances' : fragmented_instances,
-        'positive_same_instance_pairs' : positive_segment_pairs
+        'positive_same_instance_pairs' : positive_segment_pairs,
         'excess_fragments' : reliable_object_matches - unique_gt_instances
     }
 
@@ -121,7 +120,7 @@ def print_fusion_metrics(metrics: FusionMetrics) -> None:
     print(f"  F1 score:            {metrics.f1:.3f}")
 
 
-def save_stage_summary_csv( first_list: list[dict], second_list: list[dict], third_list: list[dict], output_file: Path) -> None:
+def save_stage_summary_csv( first_list: list[dict], second_list: list[dict], third_list: list[dict], output_dir: Path) -> None:
     lengths = { len(first_list), len(second_list), len(third_list)}
     if len(lengths) != 1:
         raise ValueError(
@@ -156,6 +155,7 @@ def save_stage_summary_csv( first_list: list[dict], second_list: list[dict], thi
             if key not in field_names:
                 field_names.append(key)
 
+    output_file = output_dir / "stage_summary.csv"
     output_file = output_file.expanduser().resolve()
     output_file.parent.mkdir( parents=True, exist_ok=True)
 

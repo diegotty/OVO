@@ -13,23 +13,15 @@ import networkx as nx
 from collections import Counter
 
 # ai-made, human-proofed
-import numpy as np
-
 class Validation:
-    scene : str
-    flags : dict
-    segment_store : SegmentStore
-    fusion_graph : FusionGraph
-    spatial_graph : SpatialGraph
-    initial_active_count : int
-    store_summary: list[dict] = []
-#     def __init__(self, flags, segment_store, fusion_graph, spatial_graph, initial_active_count):
-#         self.flags = flags
-#         self.segment_store = segment_store
-#         self.fusion_graph = fusion_graph
-#         self.spatial_graph = spatial_graph
-#         self.initial_active_count = initial_active_count
-#         self. stage_summary = []
+    def __init__(self, scene, flags, segment_store, fusion_graph, spatial_graph, initial_active_count):
+        self.scene = scene
+        self.flags = flags
+        self.segment_store = segment_store
+        self.fusion_graph = fusion_graph
+        self.spatial_graph = spatial_graph
+        self.initial_active_count = initial_active_count
+        self. store_summary = []
 
 
     def validate_segment_store(self, stage: str) -> None:
@@ -96,8 +88,8 @@ class Validation:
                 'scene' : self.scene,
                 'self' : stage,
                 'total_segments' : len(segments),
-                'active_segments' : active_segments,
-                'confirmed_segments' : confirmed_segments,
+                'active_segments' : len(active_segments),
+                'confirmed_segments' : len(confirmed_segments),
                 'tentative_segments' : len(active_segments) - len(confirmed_segments),
                 'absorbed_segments' : len(segments) - len(active_segments)
 

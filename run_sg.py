@@ -69,13 +69,13 @@ def main():
     print(f'--- PERSISTENCE-BASED FILTERING ---')
     controller.persistence_filter()
     validator.validate('filter')
-    filter_matches = evaluator.compute_class_matches(controller.segment_store.segments(confirmed_only=True), 'filter')
+    filter_matches = evaluator.compute_class_matches(controller.segment_store.segments(confirmed_only=True))
     evaluator.compute_instance_matches(filter_matches, 'filter')
 
     gt_instances_summary = evaluator.gt_instances_summary
     gt_classes_summary = evaluator.gt_classes_summary
     store_summary = validator.store_summary
-    save_stage_summary_csv(store_summary, gt_classes_summary, gt_instances_summary)
+    save_stage_summary_csv(store_summary, gt_classes_summary, gt_instances_summary, output_dir)
     
 if __name__ == "__main__":
     main()

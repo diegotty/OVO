@@ -3,6 +3,7 @@ from itertools import combinations
 import csv
 from pathlib import Path
 
+SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
 
 STRUCTURAL_CLASSES = {
