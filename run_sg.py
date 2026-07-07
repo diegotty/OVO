@@ -14,68 +14,69 @@ def main():
     
     parser = argparse.ArgumentParser()
     # dir should be ovo/data/input/Replica/<scene_name>
-    parser.add_argument("--scene", type=str, required=True)
+    parser.add_argument("--scenes", nargs='*', required=True)
     parser.add_argument("--test_name", type=str, required=True)
 
     args = parser.parse_args()
     # should be ovo/evaluation/<run_name>
-    input_dir = SCRIPT_DIR / "data/output/Replica/" / args.scene
-    output_dir = SCRIPT_DIR / "evaluation" / args.test_name / args.scene
-    output_dir.mkdir(parents=True, exist_ok=True)
-    print('--- export stage ---')
-    print(f'scene dir: {input_dir}')
-    print(f'output_dir: {output_dir}')
+    for scene in args.scenes:
+        input_dir = SCRIPT_DIR / "data/output/Replica/" / scene
+        output_dir = SCRIPT_DIR / "evaluation" / args.test_name / scene
+        output_dir.mkdir(parents=True, exist_ok=True)
+        print('--- export stage ---')
+        print(f'scene dir: {input_dir}')
+        print(f'output_dir: {output_dir}')
 
-    output_exporter.extract(input_dir)
-    # print(f'export result: {export_status!r}')
-    export_dir = SCRIPT_DIR / "exported" / args.scene
-    controller = Controller(export_dir)
-    print('loaded OVO segments')
-    initial_active_count = len(list(controller.segment_store.segments(not_absorbed_only=True)))
-    # used for validation of intra-pipeline structures
-    validator = Validation(
-        args.scene,
-        flags={
-            'segment_store' : True,
-            'fusion_graph' : False,
-            'spatial_graph' : False
-        },
-        segment_store=controller.segment_store,
-        fusion_graph=controller.fusion_graph,
-        spatial_graph=controller.spatial_graph,
-        initial_active_count=initial_active_count
-    )
+        output_exporter.extract(input_dir)
+        # print(f'export result: {export_status!r}')
+        export_dir = SCRIPT_DIR / "exported" / scene
+        controller = Controller(export_dir)
+        print('loaded OVO segments')
+        initial_active_count = len(list(controller.segment_store.segments(not_absorbed_only=True)))
+        # used for validation of intra-pipeline structures
+        validator = Validation(
+            scene,
+            flags={
+                'segment_store' : True,
+                'fusion_graph' : False,
+                'spatial_graph' : False
+            },
+            segment_store=controller.segment_store,
+            fusion_graph=controller.fusion_graph,
+            spatial_graph=controller.spatial_graph,
+            initial_active_count=initial_active_count
+        )
 
-    evaluator = Evaluator(args.scene)
+        evaluator = Evaluator(scene)
 
-    print('--- STARTING STAGE ---')
-    validator.validate('initial')
-    matches = evaluator.compute_class_matches(controller.segment_store.segments())
-    evaluator.compute_instance_matches(matches, 'initial')
+        print('--- STARTING STAGE ---')
+        validator.validate('initial')
+        matches = evaluator.compute_class_matches(controller.segment_store.segments())
+        evaluator.compute_instance_matches(matches, 'initial')
+        
+        print('--- FUSION STAGE ---')
+        fusion_map, final_clusters = controller.fusion_graph.update_graph()
     
-    print('--- FUSION STAGE ---')
-    fusion_map, final_clusters = controller.fusion_graph.update_graph()
-
-    validator.validate('fusion')
-    fusion_matches = evaluator.compute_class_matches(controller.segment_store.segments(not_absorbed_only=True))
-    evaluator.compute_instance_matches(fusion_matches, 'filter')
-
-    validator.validate_fusion_updates(final_clusters)
-    fusion_results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
-    #fusion_metrics.csv
-    fusion_metrics.save_to_csv(fusion_results, args.scene, output_dir)
-    print_fusion_metrics(fusion_results)
-
-    print(f'--- PERSISTENCE-BASED FILTERING ---')
-    controller.persistence_filter()
-    validator.validate('filter')
-    filter_matches = evaluator.compute_class_matches(controller.segment_store.segments(confirmed_only=True))
-    evaluator.compute_instance_matches(filter_matches, 'filter')
-
-    gt_instances_summary = evaluator.gt_instances_summary
-    gt_classes_summary = evaluator.gt_classes_summary
-    store_summary = validator.store_summary
-    save_stage_summary_csv(store_summary, gt_classes_summary, gt_instances_summary, output_dir)
+        validator.validate('fusion')
+        fusion_matches = evaluator.compute_class_matches(controller.segment_store.segments(not_absorbed_only=True))
+        evaluator.compute_instance_matches(fusion_matches, 'filter')
+    
+        validator.validate_fusion_updates(final_clusters)
+        fusion_results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
+        #fusion_metrics.csv
+        fusion_metrics.save_to_csv(fusion_results, scene, output_dir)
+        print_fusion_metrics(fusion_results)
+    
+        print(f'--- PERSISTENCE-BASED FILTERING ---')
+        controller.persistence_filter()
+        validator.validate('filter')
+        filter_matches = evaluator.compute_class_matches(controller.segment_store.segments(confirmed_only=True))
+        evaluator.compute_instance_matches(filter_matches, 'filter')
+    
+        gt_instances_summary = evaluator.gt_instances_summary
+        gt_classes_summary = evaluator.gt_classes_summary
+        store_summary = validator.store_summary
+        save_stage_summary_csv(store_summary, gt_classes_summary, gt_instances_summary, output_dir)
     
 if __name__ == "__main__":
     main()

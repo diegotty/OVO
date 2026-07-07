@@ -86,7 +86,7 @@ class Validation:
         self.store_summary.append(
             {
                 'scene' : self.scene,
-                'self' : stage,
+                'stage' : stage,
                 'total_segments' : len(segments),
                 'active_segments' : len(active_segments),
                 'confirmed_segments' : len(confirmed_segments),

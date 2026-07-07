@@ -1,0 +1,4 @@
+scene,stage,total_segments,active_segments,confirmed_segments,tentative_segments,absorbed_segments,matched_segments,ambiguous_segments,ignored_segments,unmatched_segments,reliable_object_matches,unique_gt_instances,fragmented_gt_instances,positive_same_instance_pairs,excess_fragments
+office4,initial,119,119,119,0,0,70,26,12,11,15,12,3,3,3
+office4,fusion,119,89,89,0,30,61,18,5,5,12,12,0,0,0
+office4,filter,119,89,57,32,30,42,10,2,3,11,11,0,0,0

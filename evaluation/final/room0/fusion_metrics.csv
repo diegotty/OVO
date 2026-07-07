@@ -1,0 +1,2 @@
+scene,evaluable_segments,unique_gt_instances,evaluated_pairs,true_positives,false_positives,false_negatives,true_negatives,precision,recall,f1
+room0,28,16,378,11,0,13,354,1.0,0.4583333333333333,0.6285714285714286

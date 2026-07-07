@@ -1,0 +1,4 @@
+scene,stage,total_segments,active_segments,confirmed_segments,tentative_segments,absorbed_segments,matched_segments,ambiguous_segments,ignored_segments,unmatched_segments,reliable_object_matches,unique_gt_instances,fragmented_gt_instances,positive_same_instance_pairs,excess_fragments
+room1,initial,81,81,81,0,0,27,52,1,1,4,4,0,0,0
+room1,fusion,81,66,66,0,15,25,40,0,1,4,4,0,0,0
+room1,filter,81,66,56,10,15,17,38,0,1,3,3,0,0,0
