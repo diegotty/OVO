@@ -1,3 +1,6 @@
+import csv
+from pathlib import Path
+from _typeshed import ProfileFunction
 from collections import Counter, defaultdict
 from thesis.evaluation.fusion_metrics import FusionMetrics
 
@@ -56,9 +59,10 @@ def print_gt_fragmentation_summary(matches, ignored_classes) -> None:
         class_by_gt_instance[gt_instance_id] = (match.gt_class_name)
 
     print("---- GT fragmentation summary ----")
-    print(
-        f"reliable matched segments: {sum(len(ids) for ids in segments_by_gt_instance.values())}")
-    print(f"unique GT instances: {len(segments_by_gt_instance)}")
+    reliable_object_matches = sum(len(ids) for ids in segments_by_gt_instance.values())]
+    unique_gt_instances = len(segments_by_gt_instance
+    print(f"reliable matched segments: {reliable_object_matches}")
+    print(f"unique GT instances: {unique_gt_instances}")
 
     # object instance that contains > 1 segments
     fragmented_instances = 0
@@ -83,6 +87,14 @@ def print_gt_fragmentation_summary(matches, ignored_classes) -> None:
             )
     print(f"fragmented GT instances: {fragmented_instances}")
     print(f"positive fusion pairs: {positive_segment_pairs}")
+    return {
+        'reliable_object_matches' : reliable_object_matches,
+        'unique_gt_instances' : unique_gt_instances,
+        'fragmented_gt_instances' : fragmented_instances,
+        'positive_same_instance_pairs' : positive_segment_pairs
+        'excess_fragments' : reliable_object_matches - unique_gt_instances
+    }
+
 
 def print_fusion_metrics(metrics: FusionMetrics) -> None:
     """
@@ -107,3 +119,47 @@ def print_fusion_metrics(metrics: FusionMetrics) -> None:
     print(f"  precision:           {metrics.precision:.3f}")
     print(f"  recall:              {metrics.recall:.3f}")
     print(f"  F1 score:            {metrics.f1:.3f}")
+
+
+def save_stage_summary_csv( first_list: list[dict], second_list: list[dict], third_list: list[dict], output_file: Path) -> None:
+    lengths = { len(first_list), len(second_list), len(third_list)}
+    if len(lengths) != 1:
+        raise ValueError(
+            "The three lists must have the same length: "
+            f"{len(first_list)}, "
+            f"{len(second_list)}, "
+            f"{len(third_list)}"
+        )
+
+    rows = []
+    for index, dictionaries in enumerate( zip( first_list, second_list, third_list)):
+        merged_row = {}
+
+        for dictionary in dictionaries:
+            for key, value in dictionary.items():
+                if ( key in merged_row and merged_row[key] != value):
+                    raise ValueError(
+                        f"Conflicting value for key '{key}' "
+                        f"in row {index}: "
+                        f"{merged_row[key]!r} != {value!r}"
+                    )
+                merged_row[key] = value
+        rows.append(merged_row)
+
+    if not rows:
+        return
+
+    # Keep columns in their first encountered order.
+    field_names = []
+    for row in rows:
+        for key in row:
+            if key not in field_names:
+                field_names.append(key)
+
+    output_file = output_file.expanduser().resolve()
+    output_file.parent.mkdir( parents=True, exist_ok=True)
+
+    with output_file.open( "w", newline="", encoding="utf-8") as file: 
+        writer = csv.DictWriter(file, fieldnames=field_names)
+        writer.writeheader()
+        writer.writerows(rows)

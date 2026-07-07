@@ -2,7 +2,8 @@ from thesis.export import output_exporter
 from thesis.scene_graph.graph_controller import Controller
 from thesis.scene_graph.utils.validation import Validation
 from thesis.evaluation import evaluation, fusion_metrics
-from thesis.evaluation.utils import print_fusion_metrics
+from thesis.evaluation.evaluation import Evaluator
+from thesis.evaluation.utils import print_fusion_metrics, save_stage_summary_csv
 import argparse
 from pathlib import Path
 
@@ -10,6 +11,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 # run from ovo/
 # ONE SCENE AT A TIME
 def main():
+    
     parser = argparse.ArgumentParser()
     # dir should be ovo/data/input/Replica/<scene_name>
     parser.add_argument("--scene", type=str, required=True)
@@ -30,7 +32,9 @@ def main():
     controller = Controller(export_dir)
     print('loaded OVO segments')
     initial_active_count = len(list(controller.segment_store.segments(not_absorbed_only=True)))
+    # used for validation of intra-pipeline structures
     validator = Validation(
+        args.scene,
         flags={
             'segment_store' : True,
             'fusion_graph' : False,
@@ -42,27 +46,36 @@ def main():
         initial_active_count=initial_active_count
     )
 
+    evaluator = Evaluator(args.scene)
+
     print('--- STARTING STAGE ---')
     validator.validate('initial')
-    matches = evaluation.calculate_matches(args.scene)
-
-    # initial_segments = {segment.id : [] for segment in controller.segment_store.segments(not_absorbed_only=True)}
-    # initial_results = fusion_metrics.evaluate_fusion(matches, initial_segments)
-    # print_fusion_metrics(initial_results)
+    matches = evaluator.compute_class_matches(controller.segment_store.segments())
+    evaluator.compute_instance_matches(matches, 'initial')
     
     print('--- FUSION STAGE ---')
     fusion_map, final_clusters = controller.fusion_graph.update_graph()
-    validator.validate('after fusion')
-    validator.validate_fusion_updates(final_clusters)
-    results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
-    print_fusion_metrics(results)
-    evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(not_absorbed_only=True)))
 
+    validator.validate('fusion')
+    fusion_matches = evaluator.compute_class_matches(controller.segment_store.segments(not_absorbed_only=True))
+    evaluator.compute_instance_matches(fusion_matches, 'filter')
+
+    validator.validate_fusion_updates(final_clusters)
+    fusion_results = fusion_metrics.evaluate_fusion(matches=matches, final_clusters=final_clusters)
+    #fusion_metrics.csv
+    fusion_metrics.save_to_csv(fusion_results, args.scene, output_dir)
+    print_fusion_metrics(fusion_results)
 
     print(f'--- PERSISTENCE-BASED FILTERING ---')
     controller.persistence_filter()
-    validator.validate('after filtering')
-    evaluation.calculate_matches(args.scene, list(controller.segment_store.segments(confirmed_only=True)))
+    validator.validate('filter')
+    filter_matches = evaluator.compute_class_matches(controller.segment_store.segments(confirmed_only=True), 'filter')
+    evaluator.compute_instance_matches(filter_matches, 'filter')
+
+    gt_instances_summary = evaluator.gt_instances_summary
+    gt_classes_summary = evaluator.gt_classes_summary
+    store_summary = validator.store_summary
+    save_stage_summary_csv(store_summary, gt_classes_summary, gt_instances_summary)
     
 if __name__ == "__main__":
     main()

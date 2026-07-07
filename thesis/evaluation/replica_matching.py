@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 from scipy.spatial.transform import Rotation
 from thesis.evaluation.replica_gt import GTInstance
+from collections import Counter
 
 # ai-made, human-proofed
 @dataclass
@@ -192,3 +193,22 @@ def save_matches_csv(matches: list[SegmentMatch], output_file: Path) -> None:
         writer.writeheader()
         for match in matches:
             writer.writerow(match.to_dict())
+
+def build_classes_summary_row( matches: list[SegmentMatch]) -> dict:
+    """
+    Build one CSV row summarizing SegmentMatch statuses.
+
+    Segments with status "empty" are counted as unmatched because
+    they cannot be associated with a GT instance.
+    """
+    status_counts = Counter(match.status for match in matches)
+
+    return {
+        "matched_segments": status_counts["matched"],
+        "ambiguous_segments": status_counts["ambiguous"],
+        "ignored_segments": status_counts["ignored"],
+        "unmatched_segments": (
+            status_counts["unmatched"]
+            + status_counts["empty"]
+        ),
+    }

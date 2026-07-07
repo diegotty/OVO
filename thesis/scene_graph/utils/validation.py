@@ -15,13 +15,21 @@ from collections import Counter
 # ai-made, human-proofed
 import numpy as np
 
-@dataclass
 class Validation:
+    scene : str
     flags : dict
     segment_store : SegmentStore
     fusion_graph : FusionGraph
     spatial_graph : SpatialGraph
     initial_active_count : int
+    store_summary: list[dict] = []
+#     def __init__(self, flags, segment_store, fusion_graph, spatial_graph, initial_active_count):
+#         self.flags = flags
+#         self.segment_store = segment_store
+#         self.fusion_graph = fusion_graph
+#         self.spatial_graph = spatial_graph
+#         self.initial_active_count = initial_active_count
+#         self. stage_summary = []
 
 
     def validate_segment_store(self, stage: str) -> None:
@@ -83,6 +91,18 @@ class Validation:
             ), f"Invalid center for segment {segment.id}"
     
         print(f"active IDs sample: {active_ids[:10]}")
+        self.store_summary.append(
+            {
+                'scene' : self.scene,
+                'self' : stage,
+                'total_segments' : len(segments),
+                'active_segments' : active_segments,
+                'confirmed_segments' : confirmed_segments,
+                'tentative_segments' : len(active_segments) - len(confirmed_segments),
+                'absorbed_segments' : len(segments) - len(active_segments)
+
+            }
+        )
 
     def validate_fusion_graph(self, stage: str) -> None:
         graph = self.fusion_graph.graph
@@ -242,19 +262,16 @@ class Validation:
         )
     
         print("relations count:")
-        for relation, count in sorted(
-            relation_counts.items()
-        ):
+        for relation, count in sorted(relation_counts.items()):
             print(f"  {relation}: {count}")
     
         print("sample edges:")
         for source, target, key, data in list(graph.edges(keys=True, data=True))[:15]:
             relation = data.get("relation", key)
     
-            print(
-                f"  {source} --{relation}--> {target}"
-                "  [target segment -> anchor segment]"
-            )
+            print(f"  {source} --{relation}--> {target} [target segment -> anchor segment]")
+
+
 
     def validate(self, phase : str):
         if self.flags['segment_store']:

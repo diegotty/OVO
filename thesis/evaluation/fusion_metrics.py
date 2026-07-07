@@ -1,5 +1,9 @@
 from dataclasses import dataclass
 from itertools import combinations
+import csv
+from pathlib import Path
+
+REPO_ROOT = SCRIPT_DIR.parent.parent
 
 STRUCTURAL_CLASSES = {
     "wall",
@@ -8,7 +12,6 @@ STRUCTURAL_CLASSES = {
     "door",
     "window",
 }
-
 
 @dataclass
 class FusionMetrics:
@@ -145,3 +148,44 @@ def evaluate_fusion(matches, final_clusters) -> FusionMetrics:
         unique_gt_instances=unique_gt_instances,
         evaluated_pairs=evaluated_pairs,
     )
+
+def save_to_csv(metrics: FusionMetrics, scene_name: str, output_dir: Path) -> None:
+    """
+    save the overall fusion metrics for one scene in a CSV file
+    """
+    output_file = output_dir / "fusion_metrics.csv"
+    output_file = output_file.expanduser().resolve()
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+
+    field_names = [
+        "scene",
+        "evaluable_segments",
+        "unique_gt_instances",
+        "evaluated_pairs",
+        "true_positives",
+        "false_positives",
+        "false_negatives",
+        "true_negatives",
+        "precision",
+        "recall",
+        "f1",
+    ]
+
+    row = {
+        "scene": scene_name,
+        "evaluable_segments": metrics.evaluable_segments,
+        "unique_gt_instances": metrics.unique_gt_instances,
+        "evaluated_pairs": metrics.evaluated_pairs,
+        "true_positives": metrics.true_positives,
+        "false_positives": metrics.false_positives,
+        "false_negatives": metrics.false_negatives,
+        "true_negatives": metrics.true_negatives,
+        "precision": metrics.precision,
+        "recall": metrics.recall,
+        "f1": metrics.f1,
+    }
+
+    with output_file.open( "w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter( file, fieldnames=field_names)
+        writer.writeheader()
+        writer.writerow(row)
