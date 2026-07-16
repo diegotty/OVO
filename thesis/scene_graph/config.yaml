@@ -1,4 +1,12 @@
 # Minimum horizontal intersection-over-minimum required for above/below/on relations
+fusion:
+  distance_threshold: 1.5
+  semantic_threshold: 0.81
+  coverage_threshold: 0.5
+  point_distance_threshold: 0.1
+  strong_semantic_threshold: 0.9
+  weak_coverage_threshold: 0.2
+
 spatial_graph:
   vertical_iom: 0.5
   near_thres: 0.01
@@ -8,14 +16,6 @@ spatial_graph:
     above: True
     below: True
     near: True
-  
-fusion:
-  distance_threshold: 1.5
-  semantic_threshold: 0.81
-  coverage_threshold: 0.5
-  point_distance_threshold: 0.1
-  strong_semantic_threshold: 0.9
-  weak_coverage_threshold: 0.2
 
 top_k_views: 10
 persistence_threshold: 7
